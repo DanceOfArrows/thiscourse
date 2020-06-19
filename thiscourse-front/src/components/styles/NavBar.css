@@ -1,0 +1,89 @@
+.navbar-wrapper {
+    height: 7.5%;
+}
+
+.navbar-container {
+    /* Style for NavBar */
+    background-color: black;
+    
+    /* Set-up for grid */
+    display: grid;
+    grid-template: 1fr / 2.5% 1fr 1fr 2.5%;
+
+    /* Position NavBar */
+    position: fixed;
+    height: 7.5%;
+    width: 100%;
+}
+
+.navbar-leftColumn {
+    /* Styling */
+
+    /* Set-up for layout */
+    grid-column: 2 / 3;
+}
+
+.navbar-rightColumn {
+    /* Styling */
+    
+
+    /* Set-up for layout */
+    grid-column: 3 / 4;
+
+    display: flex;
+    justify-content: flex-end;
+    height: 100%;
+}
+
+.navbar-rightColumn > a {
+    /* Styling */
+    border-radius: 4px; 
+    color: white;
+    padding: 6px 6px 8px 6px;
+    text-decoration: none;
+    transition: background-color 0.5s ease;
+
+    /* Set-up for layout */
+    align-self: center;
+    margin-left: 5%;
+}
+
+.navbar-rightColumn > a:hover {
+    /* Styling */
+    background-color: #DC143C;
+
+    /* Set-up for layout */
+}
+
+.navbar-profile-container {
+    /* Styling */
+    padding-right: calc(6px + 0.5vmin) !important;
+
+    /* Set-up for layout */
+    height: 50%;
+}
+
+.navbar-profile {
+    /* Styling */
+    color: white;
+
+    /* Set-up for layout */
+    display: flex;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.navbar-profile > img{
+    /* Styling */
+    border-radius: 50%;
+
+
+    /* Set-up for layout */
+    height: 100%;
+}
+
+.navbar-profile > * {
+    /* Set-up for layout */
+    align-self: center;
+    margin-right: 5%;
+}
