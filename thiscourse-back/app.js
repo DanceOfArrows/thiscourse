@@ -7,7 +7,7 @@ const path = require('path');
 const { environment } = require("./config");
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-const forumsRouter = require('./routes/forums');
+const categoriesRouter = require('./routes/categories');
 
 
 const app = express();
@@ -21,7 +21,7 @@ app.use(cors({ origin: true }));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/', forumsRouter);
+app.use('/', categoriesRouter);
 
 app.use((req, res, next) => {
     const err = new Error("The requested resource couldn't be found.");

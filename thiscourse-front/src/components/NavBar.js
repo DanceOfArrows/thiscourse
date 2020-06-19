@@ -6,7 +6,7 @@ import { logout } from '../redux/user';
 
 import './styles/NavBar.css';
 
-function NavBar(props) {
+const NavBar = (props) => {
     const handleLogout = () => {
         props.logout();
     };

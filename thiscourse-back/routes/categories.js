@@ -4,32 +4,61 @@ const db = require('../db/models');
 const { asyncHandler } = require('../utils');
 
 const router = express.Router();
-const { Comment, Forum, Thread } = db;
+const { Comment, Category, Thread } = db;
 
-// Get all forums
-router.get('/forums', asyncHandler(async (req, res, next) => {
-    const forums = await Forum.findAll();
+// Get all categories
+router.get('/categories', asyncHandler(async (req, res, next) => {
+    const categories = await Category.findAll({
+        where: {
+            parent_category: null,
+        }
+    });
 
-    const forumReturnObj = {};
-    forums.forEach(forum => {
-        const forumData = forum.dataValues;
-        const { name, parent_forum } = forumData;
+    const categoryReturnObj = {};
+    categories.forEach(category => {
+        const categoryData = category.dataValues;
+        const { name, description, parent_category } = categoryData;
 
-        forumReturnObj[`forum_${forumData.id}`] = {
+        categoryReturnObj[`category_${categoryData.id}`] = {
             name,
-            parent_forum,
+            description,
+            parent_category,
         }
         return;
     })
 
-    res.json(forumReturnObj);
+    res.json(categoryReturnObj);
 }));
 
-// Get threads with forum id
-router.get('/threads/:forum_id', asyncHandler(async (req, res, next) => {
+// Get sub-category from parent_category
+router.get('/categories/:parent_categoryId', asyncHandler(async (req, res, next) => {
+    const categories = await Category.findAll({
+        where: {
+            parent_category: req.params.parent_categoryId,
+        }
+    });
+
+    const categoryReturnObj = {};
+    categories.forEach(category => {
+        const categoryData = category.dataValues;
+        const { name, description, parent_category } = categoryData;
+
+        categoryReturnObj[`category_${categoryData.id}`] = {
+            name,
+            description,
+            parent_category,
+        }
+        return;
+    })
+
+    res.json(categoryReturnObj);
+}));
+
+// Get threads with category id
+router.get('/threads/:category_id', asyncHandler(async (req, res, next) => {
     const threads = await Thread.findAll({
         where: {
-            forum_id: req.params.forum_id,
+            category_id: req.params.category_id,
         }
     });
 

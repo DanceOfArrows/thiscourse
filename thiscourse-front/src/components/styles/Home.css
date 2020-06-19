@@ -1,0 +1,14 @@
+.forum-container {
+    /* Styling */
+    color: white;
+
+    /* Layout */
+    margin: 2.5% 0 0 10%;
+    width: 80%;    
+}
+
+.forum-categories {
+    font-size: 2vmax;
+    margin-bottom: 1%;
+    width: max-content;
+}

@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Forums', {
+    return queryInterface.createTable('Categories', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -12,10 +12,14 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING(32)
       },
-      parent_forum: {
+      description: {
+        allowNull: false,
+        type: Sequelize.STRING(500),
+      },
+      parent_category: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Forums',
+          model: 'Categories',
           key: 'id',
         }
       },
@@ -30,6 +34,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Forums');
+    return queryInterface.dropTable('Categories');
   }
 };

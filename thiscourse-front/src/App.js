@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 
+import Home from './components/Home';
 import Login from './components/Login';
 import NavBar from './components/NavBar'
 import Register from './components/Register';
@@ -26,7 +27,7 @@ function App(props) {
             currentUserId={props.account ? props.account.userId : null}
           />
           <ProtectedRoute exact path='/logout' currentUserId={props.account ? props.account.userId : null} />
-          <Route exact path='/' render={() => 'Hello World!'} />
+          <Route exact path='/' component={Home} />
         </Switch>
       </div>
     </>

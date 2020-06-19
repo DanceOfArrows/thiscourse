@@ -5,7 +5,7 @@ module.exports = {
     return queryInterface.bulkInsert('Permissions', [
       { name: 'crudThread', createdAt: new Date(), updatedAt: new Date() },
       { name: 'crudComment', createdAt: new Date(), updatedAt: new Date() },
-      { name: 'crudForum', createdAt: new Date(), updatedAt: new Date() },
+      { name: 'crudCategory', createdAt: new Date(), updatedAt: new Date() },
       { name: 'banUsers', createdAt: new Date(), updatedAt: new Date() }
     ], {});
   },

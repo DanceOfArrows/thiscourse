@@ -4,7 +4,7 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('Threads', [
       {
-        forum_id: 1,
+        category_id: 1,
         user_id: 1,
         title: 'What is your favorite novel?',
         content: 'Feel free to list as many as you like!',
