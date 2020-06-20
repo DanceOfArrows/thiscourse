@@ -8,8 +8,10 @@
 }
 
 .categoryCard-container {
+    /* Style */
     background-color: rgba(0, 0, 0, 0.6);
     border-radius: 5px;
+    color: white;
 
     /* Layout */
     display: grid;
@@ -35,7 +37,6 @@
 }
 
 .categoryCard-info {
-
     /* Layout */
     display: flex;
     flex-direction: column;
@@ -52,7 +53,7 @@
 
     /* Layout */
 
-    width: min-content;
+    width: max-content;
 }
 
 .categoryCard-info-title:after {
@@ -60,12 +61,12 @@
     content: "";
     display: block;
     height: 1px;
-    margin-bottom: 4px;
+    margin: 2px 0 4px 0;
     width: 100%;
 }
 
 .categoryCard-info-title:hover:after {
-    animation: sizeAnim 1s infinite linear;
+    animation: sizeAnim 0.85s infinite linear;
 }
 
 .categoryCard-info-description {

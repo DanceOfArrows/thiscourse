@@ -6,6 +6,21 @@ import { logout } from '../redux/user';
 
 import './styles/NavBar.css';
 
+export const handeLoginDisplay = () => {
+    const loginForm = document.querySelector('.login-container');
+    console.log(loginForm.style.visibility)
+
+    if (loginForm.style.visibility === 'hidden') {
+        loginForm.style.visibility = 'visible';
+        loginForm.style.height = '5%';
+        loginForm.style.opacity = '1';
+    } else {
+        loginForm.style.visibility = 'hidden';
+        loginForm.style.height = '0';
+        loginForm.style.opacity = '0';
+    }
+}
+
 const NavBar = (props) => {
     const handleLogout = () => {
         props.logout();
@@ -31,12 +46,12 @@ const NavBar = (props) => {
                                         <div>{props.account.display_name}</div>
                                     </div>
                                 </NavLink>
-                                <NavLink to='/logout' onClick={handleLogout}>Log Out</NavLink>
+                                <div onClick={handleLogout}>Logout</div>
                             </>
                         ) : (
                             <>
                                 <NavLink to='/register'>Register</NavLink>
-                                <NavLink to='/login'>Login</NavLink>
+                                <div onClick={handeLoginDisplay}>Login</div>
                             </>
                         )}
                 </nav>

@@ -9,47 +9,54 @@ const { Comment, Category, Thread } = db;
 // Get all categories
 router.get('/categories', asyncHandler(async (req, res, next) => {
     const categories = await Category.findAll({
-        where: {
-            parent_category: null,
-        }
+        where: { parent_category: null },
+        order: [
+            ['name', 'ASC'],
+        ],
     });
 
     const categoryReturnObj = {};
-    categories.forEach(category => {
+    await Promise.all(categories.map(async category => {
         const categoryData = category.dataValues;
-        const { name, description, parent_category } = categoryData;
+        let category_img;
+        if (categoryData.category_img) category_img = categoryData.category_img;
+        const { name, description } = categoryData;
+
+        const threads = await Thread.findAll({
+            where: {
+                category_id: categoryData.id,
+            }
+        })
+        const thread_count = threads.length;
+
+        const categories = await Category.findAll({
+            where: {
+                parent_category: categoryData.id,
+            }
+        });
+
+        const subCategories = {};
+        categories.forEach(category => {
+            const categoryData = category.dataValues;
+            const { name, description } = categoryData;
+
+            subCategories[`category_${categoryData.id}`] = {
+                name,
+                description,
+            }
+            return;
+        })
 
         categoryReturnObj[`category_${categoryData.id}`] = {
             name,
+            category_img,
             description,
-            parent_category,
+            thread_count: thread_count,
+            subCategories
         }
+
         return;
-    })
-
-    res.json(categoryReturnObj);
-}));
-
-// Get sub-category from parent_category
-router.get('/categories/:parent_categoryId', asyncHandler(async (req, res, next) => {
-    const categories = await Category.findAll({
-        where: {
-            parent_category: req.params.parent_categoryId,
-        }
-    });
-
-    const categoryReturnObj = {};
-    categories.forEach(category => {
-        const categoryData = category.dataValues;
-        const { name, description, parent_category } = categoryData;
-
-        categoryReturnObj[`category_${categoryData.id}`] = {
-            name,
-            description,
-            parent_category,
-        }
-        return;
-    })
+    }));
 
     res.json(categoryReturnObj);
 }));

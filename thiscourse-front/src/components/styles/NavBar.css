@@ -37,10 +37,11 @@
     height: 100%;
 }
 
-.navbar-rightColumn > a {
+.navbar-rightColumn > a, .navbar-rightColumn > div {
     /* Styling */
     border-radius: 4px; 
     color: white;
+    cursor: pointer;
     padding: 6px 6px 8px 6px;
     text-decoration: none;
     transition: all 0.35s ease;
@@ -51,12 +52,12 @@
     margin-left: 5%;
 }
 
-.navbar-rightColumn > a:active {
+.navbar-rightColumn > a:active, .navbar-rightColumn > div:active {
     /* Styling */
     transform: scale(0.5);
 }
 
-.navbar-rightColumn > a:hover {
+.navbar-rightColumn > a:hover, .navbar-rightColumn > div:hover {
     /* Styling */
     background-color: #DC143C;
 }

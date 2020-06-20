@@ -1,11 +1,11 @@
 import { apiBaseUrl } from '../config';
 
-const LOAD_CATEGORIES = 'thiscourse/home/LOAD_CATEGORIES';
+const LOAD_CATEGORIES = 'thiscourse/Home/LOAD_CATEGORIES';
 
 export const loadCategories = (categories) => ({
     type: LOAD_CATEGORIES,
     categories,
-})
+});
 
 export const getCategories = () => async dispatch => {
     const categoriesRes = await fetch(`${apiBaseUrl}/categories`);
@@ -14,7 +14,7 @@ export const getCategories = () => async dispatch => {
         const categories = await categoriesRes.json();
         dispatch(loadCategories(categories));
     }
-}
+};
 
 export default function reducer(state = {}, action) {
     switch (action.type) {
@@ -26,4 +26,4 @@ export default function reducer(state = {}, action) {
         }
         default: return state;
     }
-}
+};

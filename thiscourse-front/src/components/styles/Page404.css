@@ -1,0 +1,13 @@
+.page-404 {
+    align-items: center;
+    color: white;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+}
+
+.page-404 p {
+    font-size: 24pt;
+    font-weight: 100;
+    margin-bottom: 7.5%;
+}

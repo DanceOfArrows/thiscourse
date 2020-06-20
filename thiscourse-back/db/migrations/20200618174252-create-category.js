@@ -10,7 +10,11 @@ module.exports = {
       },
       name: {
         allowNull: false,
-        type: Sequelize.STRING(32)
+        type: Sequelize.STRING(32),
+        unique: true,
+      },
+      category_img: {
+        type: Sequelize.TEXT,
       },
       description: {
         allowNull: false,

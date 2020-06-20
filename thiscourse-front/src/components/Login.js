@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { login } from '../redux/user';
+import { handeLoginDisplay } from './NavBar';
+import './styles/Login.css';
 
 const Login = (props) => {
     const [loginData, setLoginData] = React.useState({
@@ -25,32 +27,39 @@ const Login = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        handeLoginDisplay();
         props.login(loginData);
     }
 
     return (
-        <>
-            <div className='login-container'>
-                <div className='login-form'>
-                    <form onSubmit={handleSubmit}>
-                        <label>
-                            Username or Email:
-                            <input type='text' name='username' onChange={updateUsername} />
-                        </label>
-                        <label>
-                            Password:
-                            <input type='password' name='password' onChange={updatePassword} />
-                        </label>
-                        <button type='submit'>Login</button>
-                    </form>
+        props.account ? <></> :
+            <>
+                <div className='login-container' style={{ visibility: 'hidden' }}>
+                    <div className='login-form'>
+                        <form onSubmit={handleSubmit}>
+                            <input
+                                type='text'
+                                name='username'
+                                onChange={updateUsername}
+                                placeholder='Username or Email'
+                            />
+                            <input
+                                type='password'
+                                name='password'
+                                onChange={updatePassword}
+                                placeholder='Password'
+                            />
+                            <button type='submit'>Login</button>
+                        </form>
+                    </div>
                 </div>
-            </div>
-        </>
+            </>
     )
 }
 
 const mapStateToProps = state => {
     return {
+        account: state.user.account,
         token: state.user.session,
     };
 };

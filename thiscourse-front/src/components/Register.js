@@ -45,8 +45,8 @@ const Register = (props) => {
 
     return (
         <>
-            <div className='login-container'>
-                <div className='login-form'>
+            <div className='register-container'>
+                <div className='register-form'>
                     <form onSubmit={handleSubmit}>
                         <label>
                             Username:
@@ -55,7 +55,7 @@ const Register = (props) => {
                                 name='username'
                                 onChange={updateUsername}
                                 onBlur={uniqueCheck}
-                                className='login-input-username'
+                                className='register-input-username'
                             />
                         </label>
                         <label>
@@ -65,7 +65,7 @@ const Register = (props) => {
                                 name='display_name'
                                 onChange={updateDisplay_name}
                                 onBlur={uniqueCheck}
-                                className='login-input-display_name'
+                                className='register-input-display_name'
                             />
                         </label>
                         <label>
@@ -75,7 +75,7 @@ const Register = (props) => {
                                 name='email'
                                 onChange={updateEmail}
                                 onBlur={uniqueCheck}
-                                className='login-input-email'
+                                className='register-input-email'
                             />
                         </label>
                         <label>
