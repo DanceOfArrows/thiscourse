@@ -7,17 +7,17 @@
     }
 }
 
-.categoryCard-container {
+.categoryCard-category-container {
     /* Style */
     background-color: rgba(0, 0, 0, 0.6);
-    border-radius: 5px;
+    border-bottom: 0.25vh solid #DC143C;
+    border-radius: 10px 10px 0 0;
     color: white;
 
     /* Layout */
     display: grid;
     grid-template: 1fr / 10% 1fr auto;
     height: 10vh;
-    margin-bottom: 1%;
     padding-right: 24px;
 }
 
@@ -46,27 +46,23 @@
 
 .categoryCard-info-title {
     /* Style */
+    background: linear-gradient(to right, white 49%, black 50%);
+    background-size: 200% 100%;
+    background-position: right bottom;
     color: white;
     font-size: 1.5em;
     font-weight: 500;
     text-decoration: none;
+    transition: all .35s ease-out;
 
     /* Layout */
 
     width: max-content;
 }
 
-.categoryCard-info-title:after {
-    background-color: #DC143C;
-    content: "";
-    display: block;
-    height: 1px;
-    margin: 2px 0 4px 0;
-    width: 100%;
-}
-
-.categoryCard-info-title:hover:after {
-    animation: sizeAnim 0.85s infinite linear;
+.categoryCard-info-title:hover {
+    background-position: left bottom;
+    color: black;
 }
 
 .categoryCard-info-description {
@@ -79,4 +75,57 @@
     /* Layout */
     align-self: center;
     
+}
+
+.categoryCard-subCategory-container {
+    /* Style */
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 0 0 10px 10px;
+    color: white;
+
+    /* Layout */
+    margin-bottom: 1%;
+    padding: 1% 24px 1% 0;  
+}
+
+.categoryCard-subCategory-info {
+    display: flex;
+}
+
+.fa-caret-right {
+    align-self: center;
+    margin-left: 3%;
+    width: max-content;
+}
+
+.categoryCard-subCategory-title {
+    /* Style */
+    color: white;
+    font-size: 1.15em;
+    font-weight: 500;
+    text-decoration: none;
+
+    /* Layout */
+    margin-left: 0.5%;
+    width: max-content;
+}
+
+.categoryCard-subCategory-noSub {
+    margin-left: 3%;
+}
+
+.categoryCard-subCategory-title-link {
+    /* Style */
+    background: linear-gradient(to right, white 49%, black 50%);
+    background-size: 200% 100%;
+    background-position: right bottom;
+    color: white;
+    text-decoration: none;
+    transition: all .35s ease-out;
+}
+
+.categoryCard-subCategory-title-link:hover {
+    /* Style */
+    background-position: left bottom;
+    color: black;
 }

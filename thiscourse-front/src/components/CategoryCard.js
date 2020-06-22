@@ -9,24 +9,60 @@ const CategoryCard = (props) => {
     const categoryInfo = props.categories[`category_${props.categoryId}`];
 
     return (
-        <>
-            <div className='categoryCard-container'>
-                <div className='categoryCard-icon'>
-                    <img src={categoryInfo.category_img} alt='No Icon!' />
+        props.categories ? (
+            <>
+                <div className='categoryCard-container'>
+                    <div className='categoryCard-category-container'>
+                        <div className='categoryCard-icon'>
+                            <img src={categoryInfo.category_img} alt='No Icon!' />
+                        </div>
+                        <div className='categoryCard-info'>
+                            <NavLink to={`/c/${categoryInfo.name}`} className='categoryCard-info-title'>
+                                {categoryInfo.name}
+                            </NavLink>
+                            <span className='categoryCard-info-description'>
+                                {categoryInfo.description}
+                            </span>
+                        </div>
+                        <div className='categoryCard-threadCount'>
+                            {categoryInfo.thread_count}
+                        </div>
+                    </div>
+
+                    <div className='categoryCard-subCategory-container'>
+                        {
+                            categoryInfo.subCategories.length === 0 ? (
+                                <>
+                                    <div className='categoryCard-subCategory-noSub'>
+                                        No sub-categories
+                                </div>
+                                </>
+                            ) : (
+                                    <>
+                                        {
+                                            categoryInfo.subCategories.map(subCategory => {
+                                                const subCategoryInfo = props.categories[subCategory];
+                                                return (
+                                                    <div className='categoryCard-subCategory-info' key={subCategory}>
+                                                        <div className="fas fa-caret-right" />
+                                                        <div className='categoryCard-subCategory-title'>
+                                                            <NavLink className='categoryCard-subCategory-title-link' to={`/c/${subCategoryInfo.name}`}>
+                                                                {subCategoryInfo.name}
+                                                            </NavLink>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })
+                                        }
+                                    </>
+                                )
+                        }
+                    </div>
                 </div>
-                <div className='categoryCard-info'>
-                    <NavLink to={`/c/${categoryInfo.name}`} className='categoryCard-info-title'>
-                        {categoryInfo.name}
-                    </NavLink>
-                    <span className='categoryCard-info-description'>
-                        {categoryInfo.description}
-                    </span>
-                </div>
-                <div className='categoryCard-threadCount'>
-                    {categoryInfo.thread_count}
-                </div>
-            </div>
-        </>
+            </>
+        ) : (
+                <h1>Loading</h1>
+            )
     )
 }
 

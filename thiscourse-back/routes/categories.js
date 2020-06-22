@@ -9,7 +9,6 @@ const { Comment, Category, Thread } = db;
 // Get all categories
 router.get('/categories', asyncHandler(async (req, res, next) => {
     const categories = await Category.findAll({
-        where: { parent_category: null },
         order: [
             ['name', 'ASC'],
         ],
@@ -20,7 +19,7 @@ router.get('/categories', asyncHandler(async (req, res, next) => {
         const categoryData = category.dataValues;
         let category_img;
         if (categoryData.category_img) category_img = categoryData.category_img;
-        const { name, description } = categoryData;
+        const { name, description, parent_category } = categoryData;
 
         const threads = await Thread.findAll({
             where: {
@@ -32,18 +31,17 @@ router.get('/categories', asyncHandler(async (req, res, next) => {
         const categories = await Category.findAll({
             where: {
                 parent_category: categoryData.id,
-            }
+            },
+            order: [
+                ['name', 'ASC'],
+            ],
         });
 
-        const subCategories = {};
+        const subCategories = [];
         categories.forEach(category => {
             const categoryData = category.dataValues;
-            const { name, description } = categoryData;
 
-            subCategories[`category_${categoryData.id}`] = {
-                name,
-                description,
-            }
+            subCategories.push(`category_${categoryData.id}`);
             return;
         })
 
@@ -52,6 +50,7 @@ router.get('/categories', asyncHandler(async (req, res, next) => {
             category_img,
             description,
             thread_count: thread_count,
+            parent_category,
             subCategories
         }
 

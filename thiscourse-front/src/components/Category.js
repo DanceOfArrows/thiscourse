@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import CategoryCard from './CategoryCard';
-import './styles/CategoryCard.css';
+import ForumNav from './ForumNav';
+import './styles/Category.css';
 import { getCategories } from '../redux/category';
 
 const Category = (props) => {
@@ -28,6 +29,7 @@ const Category = (props) => {
     return (
         props.categories ? (
             <>
+                <ForumNav categoryId={categoryId} />
                 <div className='category-container'>
                     <div className='category-header-container'>
                         <CategoryCard categoryId={categoryId} />

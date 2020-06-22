@@ -33,24 +33,25 @@ const NavBar = (props) => {
                     {/* Logo Here */}
                 </div>
                 <nav className='navbar-rightColumn'>
-                    <NavLink to='/'>Home</NavLink>
+                    <NavLink to='/' exact activeClassName="active-link">Home</NavLink>
                     {props.account ?
                         (
                             <>
                                 <NavLink
                                     to={`/u/${props.account.display_name}`}
                                     className='navbar-profile-container'
+                                    activeClassName="active-link"
                                 >
                                     <div className='navbar-profile'>
                                         <img src={props.account.profile_img} alt='profile_img' />
                                         <div>{props.account.display_name}</div>
                                     </div>
                                 </NavLink>
-                                <div onClick={handleLogout}>Logout</div>
+                                <NavLink to='/' onClick={handleLogout}>Logout</NavLink>
                             </>
                         ) : (
                             <>
-                                <NavLink to='/register'>Register</NavLink>
+                                <NavLink to='/register' activeClassName="active-link">Register</NavLink>
                                 <div onClick={handeLoginDisplay}>Login</div>
                             </>
                         )}

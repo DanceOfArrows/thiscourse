@@ -20,6 +20,10 @@ const Home = (props) => {
                     {
                         props.categories ? Object.keys(props.categories).map(categoryObj => {
                             const categoryId = parseInt(categoryObj.match(/\d+/), 10);
+
+                            if (props.categories[categoryObj].parent_category !== null) return (
+                                <div key={categoryObj} style={{ display: 'none' }}></div>
+                            );
                             return (
                                 <CategoryCard key={categoryObj} categoryId={categoryId} />
                             )

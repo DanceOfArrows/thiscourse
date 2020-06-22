@@ -94,3 +94,7 @@
     align-self: center;
     margin-right: 5%;
 }
+
+.active-link {
+    background-color: #DC143C;
+}
