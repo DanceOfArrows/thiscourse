@@ -46,14 +46,14 @@
 
 .categoryCard-info-title {
     /* Style */
-    background: linear-gradient(to right, white 49%, black 50%);
-    background-size: 200% 100%;
+    background: linear-gradient(to right, white 50%, black 50%);
+    background-size: 201% 100%;
     background-position: right bottom;
     color: white;
     font-size: 1.5em;
     font-weight: 500;
     text-decoration: none;
-    transition: all .35s ease-out;
+    transition: all .15s ease-out;
 
     /* Layout */
 
@@ -116,12 +116,12 @@
 
 .categoryCard-subCategory-title-link {
     /* Style */
-    background: linear-gradient(to right, white 49%, black 50%);
-    background-size: 200% 100%;
+    background: linear-gradient(to right, white 50%, black 50%);
+    background-size: 201% 100%;
     background-position: right bottom;
     color: white;
     text-decoration: none;
-    transition: all .35s ease-out;
+    transition: all .15s ease-out;
 }
 
 .categoryCard-subCategory-title-link:hover {

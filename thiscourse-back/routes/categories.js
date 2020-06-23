@@ -72,6 +72,7 @@ router.get('/threads/:category_id', asyncHandler(async (req, res, next) => {
     threads.forEach(thread => {
         const threadData = thread.dataValues;
         const {
+            category_id,
             user_id,
             title,
             content,
@@ -80,9 +81,11 @@ router.get('/threads/:category_id', asyncHandler(async (req, res, next) => {
             bump_time,
             tags,
             createdAt,
-            updatedAt } = threadData;
+            updatedAt
+        } = threadData;
 
         threadReturnObj[`thread_${threadData.id}`] = {
+            category_id,
             user_id,
             title,
             content,

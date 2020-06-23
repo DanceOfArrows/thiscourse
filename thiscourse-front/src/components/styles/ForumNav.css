@@ -1,0 +1,48 @@
+.forumNav-container {
+    /* Style */
+    color: white;
+
+    /* Layout */
+    box-sizing: border-box;
+    display: flex;
+    margin: 2.5% 0 0 10%;
+    width: 80%;
+}
+
+.forumNav-container a {
+    /* Style */
+    background: linear-gradient(to right, white 50%, rgba(0,0,0,0) 50%);
+    background-size: 201% 100%;
+    background-position: right bottom;
+    color: white;
+    font-size: 16pt;
+    text-decoration: none;
+    transition: all .15s ease-out;
+}
+
+.forumNav-container a:hover {
+    /* Style */
+    background-position: left bottom;
+    color: black !important;
+}
+
+.fa-chevron-right {
+    /* Style */
+    color: #DC143C;
+
+    /* Layout */
+    align-self: center;
+    margin: 0 2% 0 2%;
+}
+
+.forumNav-active-link {
+    /* Style */
+    color: #DC143C !important;
+}
+
+.forumNav-link-item {
+    max-width: 10%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

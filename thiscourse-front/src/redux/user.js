@@ -1,7 +1,7 @@
 import { apiBaseUrl } from '../config';
 
-const LOGIN_USER = 'thiscourse/login/LOGIN_USER';
-const LOGOUT_USER = 'thiscourse/login/LOGOUT_USER';
+const LOGIN_USER = 'thiscourse/Login/LOGIN_USER';
+const LOGOUT_USER = 'thiscourse/Login/LOGOUT_USER';
 
 export const loginUser = (userId, email, display_name, bio, profile_img, token) => ({
     type: LOGIN_USER,

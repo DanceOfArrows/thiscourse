@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     profile_img: DataTypes.TEXT,
   }, {});
   User.associate = function (models) {
-    User.belongsToMany(models.Role, { through: models.UserToRole });
+    User.belongsToMany(models.Role, { through: models.UserToRole, foreignKey: 'user_id' });
     User.hasMany(models.Thread, { foreignKey: 'user_id' });
     User.hasMany(models.Comment, { foreignKey: 'user_id' });
   };

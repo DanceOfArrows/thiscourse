@@ -34,7 +34,7 @@ const CategoryCard = (props) => {
                             categoryInfo.subCategories.length === 0 ? (
                                 <>
                                     <div className='categoryCard-subCategory-noSub'>
-                                        No sub-categories
+                                        No subcategories
                                 </div>
                                 </>
                             ) : (
