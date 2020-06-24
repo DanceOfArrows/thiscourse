@@ -41,7 +41,7 @@ module.exports = {
         type: Sequelize.BOOLEAN
       },
       bump_time: {
-        type: Sequelize.TIME
+        type: Sequelize.DATE
       },
       tags: {
         type: Sequelize.ARRAY(Sequelize.STRING(64))

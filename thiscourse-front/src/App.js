@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 
 import Category from './components/Category';
+import CreateThread from './components/CreateThread';
 import Home from './components/Home';
 import Login from './components/Login';
 import NavBar from './components/NavBar';
@@ -25,6 +26,7 @@ function App(props) {
             currentUserId={props.account ? props.account.userId : null}
           />
           <ProtectedRoute exact path='/logout' currentUserId={props.account ? props.account.userId : null} />
+          <Route path='/c/*/new-thread' component={CreateThread} />
           <Route path='/c' component={Category} />
           <Route exact path='/' component={Home} />
           <Route path='*' component={Page404} />

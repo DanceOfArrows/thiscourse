@@ -7,6 +7,8 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "cookies-js": "^1.2.3",
+    "draft-js": "^0.11.6",
+    "draft-js-export-html": "^1.4.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-password-strength-bar": "^0.3.2",

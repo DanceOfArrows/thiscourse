@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     content: DataTypes.STRING(5000),
     is_locked: DataTypes.BOOLEAN,
     is_stickied: DataTypes.BOOLEAN,
-    bump_time: DataTypes.TIME,
+    bump_time: DataTypes.DATE,
     tags: DataTypes.ARRAY(DataTypes.STRING(64))
   }, {});
   Thread.associate = function (models) {

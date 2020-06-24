@@ -6,3 +6,134 @@
         margin: 2.5% 0 0 10%;
         width: 80%;    
 }
+
+.category-threadSection-container {
+        margin-top: 4%;
+}
+
+.category-threads-container {
+    /* Style */
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 10px 10px 0 0;
+    color: #DC143C;
+
+    /* Layout */
+    margin-bottom: 1%;
+    width: 70%;
+}
+
+.category-threads-stickyHeader, .category-threads-normHeader {
+        background-color: rgba(0, 0, 0, 0.6);
+        font-weight: 200;
+
+        height: max-content;
+        padding: 10px;
+}
+
+.category-threads-normHeader {
+        display: flex;
+        justify-content: space-between;
+}
+
+.category-threads-stickyHeader {
+        border-radius: 10px 10px 0 0;
+}
+
+.category-threads-threadContainer {
+        display: grid;
+        grid-template: 1fr / 7.5% auto 20%;
+        padding: 16px 10px 16px 10px;
+}
+
+.category-threads-ownerImg {
+        display: inline-block;
+        max-height: 32px;
+        max-width: 32px;
+
+        align-self: center;
+        grid-column: 1 / 2;
+        justify-self: center;
+        position: relative;
+}
+
+.category-threads-ownerImg img {
+        border-radius: 50%;
+        max-height: 32px;
+        max-width: 32px;
+}
+
+.category-threads-imgTooltip {
+        /* Style */
+        background-color: black;
+        color: #DC143C;
+        opacity: 0;
+        padding: 4px;
+        text-align: center;
+        transition: all .15s ease-out;
+        visibility: hidden;
+
+        /* Layout */
+        border-radius: 6px;
+        position: absolute;
+        right: 10%; 
+        top: 0;
+        transform:translateX(-50%);
+        width: max-content;
+        z-index: 1;
+}
+
+.category-threads-ownerImg:hover .category-threads-imgTooltip {
+        opacity: 1;
+        visibility: visible;
+}
+
+.category-threads-info {
+        grid-column: 2 / 3;
+}
+
+.category-threads-title > a {
+        background: linear-gradient(to right, white 50%, rgba(0, 0, 0, 0) 50%);
+        background-size: 201% 100%;
+        background-position: right bottom;
+        color: white;
+        text-decoration: none;
+        transition: all .15s ease-out;
+}
+
+.category-threads-title > a:hover {
+        background-position: left bottom;
+        color: black;
+}
+
+.category-threads-ownerStarted {
+        color: white;
+        font-size: 0.9rem;
+        font-weight: 200;
+}
+
+.category-threads-ownerStarted > a {
+        color: white;
+        text-decoration: none;
+        transition: all .15s ease-out;
+}
+
+.category-threads-ownerStarted > a:hover {
+        color: #DC143C;
+}
+
+.category-threads-post {
+        border-style: solid; 
+        border-radius: 7px; 
+        border-width: 1px; 
+        border-color:#dc143c; 
+        background-color: #000000; 
+        color: white; 
+        cursor: pointer;
+        margin-right: 1%;
+        padding: 3px;
+        white-space: nowrap;
+}
+
+.category-threads-stats {
+        grid-column: 3 / 4;
+}

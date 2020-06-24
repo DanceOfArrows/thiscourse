@@ -46,7 +46,7 @@
 
 .categoryCard-info-title {
     /* Style */
-    background: linear-gradient(to right, white 50%, black 50%);
+    background: linear-gradient(to right, white 50%, rgba(0, 0, 0, 0) 50%);
     background-size: 201% 100%;
     background-position: right bottom;
     color: white;
@@ -116,7 +116,7 @@
 
 .categoryCard-subCategory-title-link {
     /* Style */
-    background: linear-gradient(to right, white 50%, black 50%);
+    background: linear-gradient(to right, white 50%, rgba(0, 0, 0, 0) 50%);
     background-size: 201% 100%;
     background-position: right bottom;
     color: white;

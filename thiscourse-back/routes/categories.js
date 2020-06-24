@@ -4,7 +4,7 @@ const db = require('../db/models');
 const { asyncHandler } = require('../utils');
 
 const router = express.Router();
-const { Comment, Category, Thread } = db;
+const { Comment, Category, Thread, User } = db;
 
 // Get all categories
 router.get('/categories', asyncHandler(async (req, res, next) => {
@@ -69,7 +69,7 @@ router.get('/threads/:category_id', asyncHandler(async (req, res, next) => {
     });
 
     const threadReturnObj = {};
-    threads.forEach(thread => {
+    await Promise.all(threads.map(async thread => {
         const threadData = thread.dataValues;
         const {
             category_id,
@@ -84,20 +84,27 @@ router.get('/threads/:category_id', asyncHandler(async (req, res, next) => {
             updatedAt
         } = threadData;
 
-        threadReturnObj[`thread_${threadData.id}`] = {
+        const user = await User.findByPk(user_id);
+        const { display_name, profile_img } = user;
+
+        const createdAtEpoch = createdAt.getTime();
+        // const updatedAtEpoch = updatedAt.getTime();
+
+        return threadReturnObj[`thread_${threadData.id}`] = {
             category_id,
-            user_id,
             title,
             content,
             is_locked,
             is_stickied,
             bump_time,
             tags,
-            createdAt,
-            updatedAt
+            createdAt: createdAtEpoch,
+            // updatedAt: updatedAtEpoch,
+            threadOwner: { user_id, display_name, profile_img }
         }
-        return;
-    })
+
+
+    }));
 
     res.json(threadReturnObj);
 }));

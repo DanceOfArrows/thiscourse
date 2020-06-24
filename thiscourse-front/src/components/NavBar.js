@@ -38,7 +38,7 @@ const NavBar = (props) => {
                         (
                             <>
                                 <NavLink
-                                    to={`/u/${props.account.display_name}`}
+                                    exact to={`/u/${props.account.display_name}`}
                                     className='navbar-profile-container'
                                     activeClassName="active-link"
                                 >
