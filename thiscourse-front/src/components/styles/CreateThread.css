@@ -1,0 +1,74 @@
+.ReactTags__tagInputField {
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 1px solid #DC143C;
+    border-radius: 4px;
+    color: white;
+    margin-bottom: 2%;
+    padding: 1%;
+    width: 18%;
+}
+
+.ReactTags__tag {
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 1px solid #DC143C;
+    border-radius: 4px;
+    display: inline-block;
+    margin: 0 1% 1% 0;
+    max-width: 98%;
+    overflow: hidden;
+    padding: 1%;
+    
+    white-space: nowrap;
+    width: max-content;
+}
+
+.ReactTags__remove {
+    cursor: pointer;
+    display: inline-block;
+    margin-left: 0.5em;
+}
+
+input[name='title'] {
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 1px solid #DC143C;
+    border-radius: 4px;
+    color: white;
+    font-size: 1.25em;
+    padding: 1%;
+    width: 48%;
+}
+
+.thread-post-submit {
+    border-style:solid; 
+    border-radius:7px; 
+    border-width:1px; 
+    border-color:#dc143c; 
+    background-color:#000000; 
+    box-shadow: 0px 0px 5px 0px #dc143c; 
+    color: white;
+    cursor: pointer;
+    margin-right: 1%;
+    padding:8px;
+    transition: all 0.35s ease;
+}
+
+.thread-post-submit:hover {
+    color: black;
+    background-color: white;
+}
+
+.thread-post-submit:active {
+    transform: scale(0.5);
+}
+
+.thread-post-container {
+    /* Styling */
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 24px;
+    color: white;
+    padding: 24px;
+
+    /* Layout */
+    margin: 2.5% 20% 0 20%;
+    width: 60%;    
+}

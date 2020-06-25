@@ -5,6 +5,19 @@
   <meta charset="utf-8" />
   <title>Thiscourse</title>
   <script src="https://kit.fontawesome.com/326e13097c.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/eqcss/1.9.2/EQCSS-polyfills.min.js"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/eqcss/1.9.2/EQCSS.min.js" crossorigin="anonymous"></script>
+  <script type="text/eqcss">
+    @element '.forumNav-active-link' {
+      $parent {
+          max-width: max-content;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+      }
+  }
+  </script>
 </head>
 
 <body>

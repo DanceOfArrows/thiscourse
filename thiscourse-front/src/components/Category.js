@@ -20,7 +20,8 @@ const epochToDate = (epoch) => {
 
 const Category = (props) => {
     const path = props.location.pathname;
-    const currentCategoryName = path.substring(path.lastIndexOf('/') + 1);
+    const pathSplit = path.split('/');
+    const currentCategoryName = pathSplit[2];
 
     let categoryId;
     for (const category in props.categories) {
@@ -106,7 +107,7 @@ const Category = (props) => {
                                     Regular Threads
                                     <NavLink to={`${path}/new-thread`}>
                                         <button className='category-threads-post'>
-                                            <i class="far fa-edit"></i>
+                                            <i className="far fa-edit"></i>
                                             Create Thread
                                         </button>
                                     </NavLink>

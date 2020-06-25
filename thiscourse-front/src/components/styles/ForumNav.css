@@ -40,7 +40,7 @@
     color: #DC143C !important;
 }
 
-.forumNav-link-item {
+.forumNav-link-item:has(.forumNav-active-link) {
     max-width: 10%;
     overflow: hidden;
     text-overflow: ellipsis;

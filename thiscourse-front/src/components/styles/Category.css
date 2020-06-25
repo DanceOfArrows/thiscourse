@@ -27,12 +27,13 @@
         font-weight: 200;
 
         height: max-content;
-        padding: 10px;
+        padding: 8px;
 }
 
 .category-threads-normHeader {
         display: flex;
         justify-content: space-between;
+        text-align: center;
 }
 
 .category-threads-stickyHeader {
@@ -130,7 +131,7 @@
         color: white; 
         cursor: pointer;
         margin-right: 1%;
-        padding: 3px;
+        padding: 8px;
         white-space: nowrap;
 }
 

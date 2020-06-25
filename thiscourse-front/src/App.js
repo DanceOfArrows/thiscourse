@@ -26,7 +26,7 @@ function App(props) {
             currentUserId={props.account ? props.account.userId : null}
           />
           <ProtectedRoute exact path='/logout' currentUserId={props.account ? props.account.userId : null} />
-          <Route path='/c/*/new-thread' component={CreateThread} />
+          <ProtectedRoute path='/c/*/new-thread' currentUserId={props.account ? props.account.userId : null} component={CreateThread} />
           <Route path='/c' component={Category} />
           <Route exact path='/' component={Home} />
           <Route path='*' component={Page404} />

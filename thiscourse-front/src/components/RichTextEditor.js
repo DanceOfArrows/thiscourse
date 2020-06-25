@@ -5,6 +5,8 @@ import { stateToHTML } from 'draft-js-export-html';
 import './styles/RichTextEditor.css';
 import '../../node_modules/draft-js/dist/Draft.css';
 
+const MAX_LENGTH = 5000;
+
 class RichTextEditor extends React.Component {
     constructor(props) {
         super(props);
@@ -24,6 +26,13 @@ class RichTextEditor extends React.Component {
         this.toggleInlineStyle = this._toggleInlineStyle.bind(this);
     }
 
+    _getLength = () => {
+        const currentContent = this.state.editorState.getCurrentContent();
+        const currentContentLength = currentContent.getPlainText('').length
+
+        return MAX_LENGTH - currentContentLength;
+    }
+
     _handleKeyCommand(command, editorState) {
         const newState = RichUtils.handleKeyCommand(editorState, command);
         if (newState) {
@@ -31,6 +40,24 @@ class RichTextEditor extends React.Component {
             return true;
         }
         return false;
+    }
+
+    _handleBeforeInput = () => {
+        const currentContent = this.state.editorState.getCurrentContent();
+        const currentContentLength = currentContent.getPlainText('').length
+
+        if (currentContentLength > MAX_LENGTH - 1) {
+            return 'handled';
+        }
+    }
+
+    _handlePastedText = (pastedText) => {
+        const currentContent = this.state.editorState.getCurrentContent();
+        const currentContentLength = currentContent.getPlainText('').length
+
+        if (currentContentLength + pastedText.length > MAX_LENGTH) {
+            return 'handled';
+        }
     }
 
     _mapKeyToEditorCommand(e) {
@@ -95,6 +122,8 @@ class RichTextEditor extends React.Component {
                         customStyleMap={styleMap}
                         editorState={editorState}
                         handleKeyCommand={this.handleKeyCommand}
+                        handleBeforeInput={this._handleBeforeInput}
+                        handlePastedText={this._handlePastedText}
                         keyBindingFn={this.mapKeyToEditorCommand}
                         onChange={this.onChange}
                         placeholder=""
@@ -102,6 +131,7 @@ class RichTextEditor extends React.Component {
                         spellCheck={true}
                     />
                 </div>
+                <div className="RichEditor-characterCount">Characters remaining: {this._getLength()}</div>
             </div>
 
         );
@@ -152,7 +182,6 @@ const INLINE_STYLES = [
     { label: 'Bold', style: 'BOLD' },
     { label: 'Italic', style: 'ITALIC' },
     { label: 'Underline', style: 'UNDERLINE' },
-    { label: 'Monospace', style: 'CODE' },
 ];
 
 const InlineStyleControls = (props) => {

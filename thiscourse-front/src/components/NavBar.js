@@ -8,7 +8,6 @@ import './styles/NavBar.css';
 
 export const handeLoginDisplay = () => {
     const loginForm = document.querySelector('.login-container');
-    console.log(loginForm.style.visibility)
 
     if (loginForm.style.visibility === 'hidden') {
         loginForm.style.visibility = 'visible';
