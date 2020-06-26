@@ -4,19 +4,9 @@ import { NavLink } from 'react-router-dom';
 
 import CategoryCard from './CategoryCard';
 import ForumNav from './ForumNav';
+import Threads from './Threads';
 import './styles/Category.css';
 import { getCategories, getThreads } from '../redux/category';
-
-const epochToDate = (epoch) => {
-    const date = new Date(epoch);
-    const monthsArr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-    const month = monthsArr[date.getMonth()];
-    const day = date.getDate();
-    const year = date.getFullYear();
-
-    return (`${month} ${day}, ${year}`);
-}
 
 const Category = (props) => {
     const path = props.location.pathname;
@@ -34,11 +24,12 @@ const Category = (props) => {
     }
 
     const { getCategories, getThreads } = props;
-
     useEffect(() => {
-        getCategories();
+        if (!props.categories) getCategories();
+    }, [getCategories, props.categories])
+    useEffect(() => {
         if (categoryId) getThreads(categoryId);
-    }, [categoryId, getCategories, getThreads]);
+    }, [categoryId, getThreads]);
 
     return (
         props.categories ? (
@@ -52,55 +43,7 @@ const Category = (props) => {
                         <div className='category-threads-container'>
                             <div className='category-threads-stickied'>
                                 <div className='category-threads-stickyHeader'>Sticky Threads</div>
-                                {
-                                    props.threads ? (
-                                        Object.keys(props.threads).map(thread => {
-                                            const threadObj = props.threads[thread];
-                                            const threadId = parseInt(thread.match(/\d+/), 10);
-                                            const threadTitleUri = encodeURI(threadObj.title);
-
-                                            const createdDate = epochToDate(threadObj.createdAt);
-                                            // const updatedDate = epochToDate(threadObj.updatedAt);
-
-                                            if (threadObj.category_id === categoryId && threadObj.is_stickied) {
-                                                return (
-                                                    <div
-                                                        className='category-threads-threadContainer'
-                                                        key={thread}
-                                                    >
-                                                        <div className='category-threads-ownerImg'>
-                                                            <NavLink to={`/u/${threadObj.threadOwner.display_name}`}>
-                                                                <img src={threadObj.threadOwner.profile_img} alt='Profile Icon' />
-                                                            </NavLink>
-                                                            <span className='category-threads-imgTooltip'>
-                                                                /u/{threadObj.threadOwner.display_name}
-                                                            </span>
-                                                        </div>
-                                                        <div className='category-threads-info'>
-                                                            <div className='category-threads-title'>
-                                                                <NavLink to={`/t/${threadId}-${threadTitleUri}`}>
-                                                                    {threadObj.title}
-                                                                </NavLink>
-                                                            </div>
-                                                            <div className='category-threads-ownerStarted'>
-                                                                <NavLink to={`/u/${threadObj.threadOwner.display_name}`}>
-                                                                    {threadObj.threadOwner.display_name}
-                                                                </NavLink> - {createdDate}
-                                                            </div>
-                                                        </div>
-                                                        <div className='category-threads-stats'>
-
-                                                            {/* <div className='category-threads-updated'>
-                                                                {updatedDate}
-                                                            </div> */}
-                                                        </div>
-                                                    </div>
-                                                )
-                                            }
-                                            return null;
-                                        })
-                                    ) : <h1>Loading</h1>
-                                }
+                                <Threads categoryId={categoryId} isStickied={true} />
                             </div>
                             <div className='category-threads'>
                                 <div className='category-threads-normHeader'>
@@ -111,9 +54,8 @@ const Category = (props) => {
                                             Create Thread
                                         </button>
                                     </NavLink>
-
                                 </div>
-
+                                <Threads categoryId={categoryId} isStickied={false} />
                             </div>
                         </div>
                     </div>
@@ -126,7 +68,6 @@ const Category = (props) => {
 const mapStateToProps = state => {
     return {
         categories: state.category.categories,
-        threads: state.category.threads,
     };
 };
 

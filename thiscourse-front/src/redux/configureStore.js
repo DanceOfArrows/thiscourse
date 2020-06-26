@@ -4,6 +4,7 @@ import storage from 'redux-persist/lib/storage';
 import thunk from 'redux-thunk';
 
 import category from './category';
+import createThread from './createThread';
 import user from './user';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -16,6 +17,7 @@ const persistConfig = {
 
 const combinedReducers = combineReducers({
     category,
+    createThread,
     user,
 });
 

@@ -2,6 +2,7 @@ const express = require('express');
 
 const db = require('../db/models');
 const { asyncHandler } = require('../utils');
+const { requireUserAuth } = require('../auth');
 
 const router = express.Router();
 const { Comment, Category, Thread, User } = db;
@@ -107,6 +108,45 @@ router.get('/threads/:category_id', asyncHandler(async (req, res, next) => {
     }));
 
     res.json(threadReturnObj);
+}));
+
+// Post a thread
+router.post('/:categoryId/new-thread', requireUserAuth, asyncHandler(async (req, res, next) => {
+    const { user_id, title, content, tags } = req.body;
+    const category_id = req.params.categoryId;
+
+    console.log(tags)
+
+    const tagNames = tags.map(tag => {
+        const { text } = tag;
+        return text;
+    });
+
+    const threadData = {
+        category_id,
+        user_id,
+        title,
+        content,
+        tags: tagNames,
+        is_locked: false,
+        is_stickied: false,
+        bump_time: null,
+    };
+
+    const thread = await Thread.create(threadData);
+
+    res.json({
+        thread_id: thread.id,
+        category_id: thread.category_id,
+        user_id: thread.user_id,
+        title: thread.title,
+        content: thread.content,
+        tags: thread.tags,
+        is_locked: thread.is_locked,
+        is_stickied: thread.is_stickied,
+        bump_time: thread.bump_time,
+        createdAt: thread.createdAt,
+    })
 }));
 
 // Get comments with thread id

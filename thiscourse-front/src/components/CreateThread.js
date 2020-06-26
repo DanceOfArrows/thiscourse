@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { WithContext as ReactTags } from 'react-tag-input';
 
 import RichTextEditor from './RichTextEditor';
-import { getCategories } from '../redux/category';
+import { createThread, getCategories } from '../redux/category';
 import './styles/CreateThread.css';
 
 const KeyCodes = {
@@ -35,7 +36,7 @@ const CreateThread = (props) => {
     const { getCategories } = props;
     useEffect(() => {
         getCategories();
-    }, [getCategories]);
+    }, [getCategories, props.redirect]);
 
     const updateTitle = e => {
         setThreadData({
@@ -65,13 +66,11 @@ const CreateThread = (props) => {
         const postFormData = new FormData(postForm);
 
         const { title, tags } = threadData;
-        console.log(postFormData.get('category_id'))
-        console.log(postFormData.get('user_id'))
-        console.log(postFormData.get('is_locked'))
-        console.log(postFormData.get('is_stickied'))
-        console.log(postFormData.get('bump_time'))
+        const user_id = postFormData.get('user_id');
+        props.createThread({ user_id, title, content: props.threadContent, tags }, categoryId, props.token);
     }
 
+    if (props.redirect) return (<Redirect to={`/c/${currentCategoryName}`} />);
 
     return (
         props.categories ? (
@@ -79,7 +78,6 @@ const CreateThread = (props) => {
                 <div className='thread-post-container'>
                     <div className='thread-post-form'>
                         <form id='thread-post-form' onSubmit={handleSubmit}>
-                            <input type='hidden' name='category_id' value={categoryId} />
                             <input type='hidden' name='user_id' value={props.user.userId} />
                             <input
                                 type='text'
@@ -89,17 +87,21 @@ const CreateThread = (props) => {
                                 maxLength={255}
                             />
                             <RichTextEditor />
-                            <input type='hidden' name='is_locked' value={false} />
-                            <input type='hidden' name='is_stickied' value={false} />
-                            <input type='hidden' name='bump_time' value={new Date()} />
-                            <ReactTags
-                                tags={threadData.tags}
-                                maxLength={24}
-                                handleDelete={handleDelete}
-                                handleAddition={handleAddition}
-                                delimiters={delimiters}
-                                allowDragDrop={false}
-                            />
+                            <div className='thread-tags-container'>
+                                <ReactTags
+                                    tags={threadData.tags}
+                                    maxLength={24}
+                                    handleDelete={handleDelete}
+                                    handleAddition={handleAddition}
+                                    delimiters={delimiters}
+                                    allowDragDrop={false}
+                                />
+                                <div className="far fa-question-circle">
+                                    <span className='thread-post-tagsTooltip'>
+                                        Hit enter or use ',' to separate tags
+                                    </span>
+                                </div>
+                            </div>
                             <button className='thread-post-submit' type='submit'>Create Thread</button>
                         </form>
                     </div>
@@ -113,12 +115,16 @@ const CreateThread = (props) => {
 const mapStateToProps = state => {
     return {
         categories: state.category.categories,
+        redirect: state.category.redirect,
+        threadContent: state.createThread.threadContent,
         user: state.user.account,
+        token: state.user.session.token,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
+        createThread: (...args) => dispatch(createThread(...args)),
         getCategories: () => dispatch(getCategories()),
     }
 };

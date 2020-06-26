@@ -1,7 +1,9 @@
 import React from 'react';
 import { Editor, EditorState, getDefaultKeyBinding, RichUtils } from 'draft-js';
+import { connect } from 'react-redux';
 import { stateToHTML } from 'draft-js-export-html';
 
+import { getCurrentContent } from '../redux/createThread';
 import './styles/RichTextEditor.css';
 import '../../node_modules/draft-js/dist/Draft.css';
 
@@ -13,12 +15,11 @@ class RichTextEditor extends React.Component {
         this.state = { editorState: EditorState.createEmpty() };
 
         this.editor = null;
-        this.onChange = (editorState) => {
-            this.setState({ editorState });
-            setTimeout(() => {
-                console.log(stateToHTML(this.state.editorState.getCurrentContent()));
-            }, 100)
-        }
+        this.onChange = (editorState) => this.setState({ editorState });
+        this.onBlur = () => {
+            const threadContent = stateToHTML(this.state.editorState.getCurrentContent());
+            props.getCurrentContent(threadContent);
+        };
 
         this.handleKeyCommand = this._handleKeyCommand.bind(this);
         this.mapKeyToEditorCommand = this._mapKeyToEditorCommand.bind(this);
@@ -125,6 +126,7 @@ class RichTextEditor extends React.Component {
                         handleBeforeInput={this._handleBeforeInput}
                         handlePastedText={this._handlePastedText}
                         keyBindingFn={this.mapKeyToEditorCommand}
+                        onBlur={this.onBlur}
                         onChange={this.onChange}
                         placeholder=""
                         ref={editor => { this.editor = editor }}
@@ -230,4 +232,21 @@ const BlockStyleControls = (props) => {
     );
 };
 
-export default RichTextEditor;
+const mapStateToProps = state => {
+    return {
+        threadContent: state.createThread.threadContent,
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getCurrentContent: (...args) => dispatch(getCurrentContent(...args)),
+    }
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(
+    RichTextEditor
+);
