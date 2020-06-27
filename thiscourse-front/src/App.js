@@ -9,6 +9,7 @@ import Login from './components/Login';
 import NavBar from './components/NavBar';
 import Page404 from './components/Page404';
 import Register from './components/Register';
+import Thread from './components/Thread';
 import { AuthRoute, ProtectedRoute } from './authRoutes'; // Add ProtectedRoute later
 
 function App(props) {
@@ -27,6 +28,7 @@ function App(props) {
           />
           <ProtectedRoute exact path='/logout' currentUserId={props.account ? props.account.userId : null} />
           <ProtectedRoute path='/c/*/new-thread' currentUserId={props.account ? props.account.userId : null} component={CreateThread} />
+          <Route path='/t' component={Thread} />
           <Route path='/c' component={Category} />
           <Route exact path='/' component={Home} />
           <Route path='*' component={Page404} />

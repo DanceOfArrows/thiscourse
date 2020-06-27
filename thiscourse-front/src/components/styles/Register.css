@@ -1,16 +1,16 @@
 .register-container {
+    align-items: center;
     display: flex;
     height: 100%;
     justify-content: center;
 }
 
 .register-wrapper {
-    height: 50%;
-    margin-top: 10%;
-    width: 25vmax;
+    height: 60%;
+    width: 20vmax;
 }
 
-.register-form input {
+.register-form input, .register-form button {
     border-style:solid; 
     border-radius:7px; 
     border-width:1px; 
@@ -20,6 +20,17 @@
     color:#ffffff; 
     margin-right: 1%;
     padding: 5%;
+    transition: all 0.35s ease;
+}
+
+.register-form button {
+    padding: 2.5%;
+}
+
+.register-form button:hover {
+    background-color: white;
+    color: black;
+    cursor: pointer;
 }
 
 .register-form, .register-form form {
@@ -33,7 +44,6 @@
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    padding: 5%;
 }
 
 .register-form input, .register-form label {

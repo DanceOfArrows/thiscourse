@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ReactPasswordStrength from 'react-password-strength';
-import PasswordStrengthBar from 'react-password-strength-bar';
 
 import { apiBaseUrl } from '../config';
 import { register } from '../redux/user';

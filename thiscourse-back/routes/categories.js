@@ -73,6 +73,7 @@ router.get('/threads/:category_id', asyncHandler(async (req, res, next) => {
     await Promise.all(threads.map(async thread => {
         const threadData = thread.dataValues;
         const {
+            id,
             category_id,
             user_id,
             title,
@@ -92,6 +93,7 @@ router.get('/threads/:category_id', asyncHandler(async (req, res, next) => {
         // const updatedAtEpoch = updatedAt.getTime();
 
         return threadReturnObj[`thread_${threadData.id}`] = {
+            thread_id: id,
             category_id,
             title,
             content,

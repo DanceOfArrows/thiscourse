@@ -9,7 +9,7 @@
     width: 80%;
 }
 
-.forumNav-container a {
+.forumNav-container a, .forumNav-thread-title {
     /* Style */
     background: linear-gradient(to right, white 50%, rgba(0,0,0,0) 50%);
     background-size: 201% 100%;
@@ -35,7 +35,7 @@
     margin: 0 2% 0 2%;
 }
 
-.forumNav-active-link {
+.forumNav-active-link, .forumNav-thread-title {
     /* Style */
     color: #DC143C !important;
 }

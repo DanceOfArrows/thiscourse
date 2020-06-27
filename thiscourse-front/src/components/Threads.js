@@ -44,7 +44,7 @@ const Threads = (props) => {
                                     </div>
                                     <div className='category-threads-info'>
                                         <div className='category-threads-title'>
-                                            <NavLink to={`/t/${threadId}-${threadTitleUri}`}>
+                                            <NavLink to={`/t/${categoryId}-${threadTitleUri}`}>
                                                 {threadObj.title}
                                             </NavLink>
                                         </div>

@@ -13,6 +13,9 @@ const ForumNav = (props) => {
         categoriesNav.unshift(props.categories[currentCategory].name);
     }
 
+    let threadNav;
+    if (props.title) threadNav = props.title;
+
     return (
         <>
             <div className='forumNav-container'>
@@ -36,6 +39,12 @@ const ForumNav = (props) => {
                         )
                     })
                 }
+                {threadNav ? (
+                    <>
+                        <div className="fas fa-chevron-right" />
+                        <div className='forumNav-thread-title'>{threadNav}</div>
+                    </>
+                ) : <></>}
             </div>
         </>
     );
