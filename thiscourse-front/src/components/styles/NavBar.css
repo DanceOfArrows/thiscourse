@@ -4,6 +4,7 @@
 
     height: 100%;
     max-height: 7.5%;
+    z-index: 5;
 }
 
 .navbar-container {
@@ -25,7 +26,21 @@
     /* Styling */
 
     /* Layout */
+    display: flex;
     grid-column: 2 / 3;
+    height: 100%;
+}
+
+.navbar-logo-container {
+    align-self: center;
+    background-color: white;
+    display: flex;
+    height: 50%;
+    max-width: min-content;
+}
+
+.navbar-logo-container img{
+    height: 100%;
 }
 
 .navbar-rightColumn {

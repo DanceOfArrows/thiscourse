@@ -31,13 +31,15 @@
 }
 
 .category-threads-normHeader {
+        align-items: center;
         display: flex;
         justify-content: space-between;
-        text-align: center;
+        padding: 12px;
 }
 
 .category-threads-stickyHeader {
         border-radius: 10px 10px 0 0;
+        padding: 16px;
 }
 
 .category-threads-threadContainer {

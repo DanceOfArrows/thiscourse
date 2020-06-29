@@ -46,7 +46,6 @@ const userNotFound = userId => {
   return err;
 }
 
-
 // Registration
 router.post('/register',
   userValidators,
@@ -117,9 +116,9 @@ router.put(
   multerUploads,
   asyncHandler(async (req, res, next) => {
     if (req.file) {
-      if (req.file.size > 1000000) {
+      if (req.file.size > 10000000) {
         const err = new Error('Large file size.');
-        err.errors = ['Max image file size is 1MB'];
+        err.errors = ['Max image file size is 10MB'];
         err.status = 400;
         err.title = 'Upload failed.';
         return next(err);
@@ -150,19 +149,37 @@ router.put(
         profile_img,
       });
 
-      res.json({ profile_img });
+      res.json({ user_id: user.id, profile_img });
     }
   }));
 
+router.put('/edit-bio', requireUserAuth, asyncHandler(async (req, res, next) => {
+  const user = await User.findByPk(req.user.dataValues.id);
+
+  if (user) {
+    await user.update({ bio: req.body.bio_content });
+  }
+
+  res.json({ bio_content: user.bio, user_id: user.id });
+}));
+
 // Get User
-router.get('/:id',
+router.get('/:display_name',
   asyncHandler(async (req, res, next) => {
-    const user = await User.findByPk(req.params.id)
+    const name = decodeURI(req.params.display_name);
+
+    const user = await User.findOne({
+      where: {
+        display_name: {
+          [Op.like]: name
+        }
+      }
+    })
 
     if (!user) next(userNotFound(req.params.id));
 
     res.json({
-      userId: user.id,
+      user_id: user.id,
       display_name: user.display_name,
       bio: user.bio,
       profile_img: user.profile_img,

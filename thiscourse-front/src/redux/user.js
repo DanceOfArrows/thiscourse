@@ -2,6 +2,9 @@ import { apiBaseUrl } from '../config';
 
 const LOGIN_USER = 'thiscourse/Login/LOGIN_USER';
 const LOGOUT_USER = 'thiscourse/Login/LOGOUT_USER';
+const LOAD_USER = 'thiscourse/Profile/LOAD_USER';
+const UPDATE_PFP = 'thiscourse/Profile/UPDATE_PFP';
+const UPDATE_BIO = 'thiscourse/Profile/Update_BIO';
 
 export const loginUser = (userId, email, display_name, bio, profile_img, token) => ({
     type: LOGIN_USER,
@@ -14,6 +17,26 @@ export const loginUser = (userId, email, display_name, bio, profile_img, token) 
 })
 
 export const logoutUser = () => ({ type: LOGOUT_USER })
+
+export const loadUser = (display_name, bio, profile_img, user_id) => ({
+    type: LOAD_USER,
+    display_name,
+    bio,
+    profile_img,
+    user_id
+})
+
+export const updatePFP = (profile_img, user_id) => ({
+    type: UPDATE_PFP,
+    profile_img,
+    user_id
+})
+
+export const updateBio = (bio_content, user_id) => ({
+    type: UPDATE_BIO,
+    bio: bio_content,
+    user_id,
+})
 
 export const login = (loginData) => async dispatch => {
     const { usernameEmail, password } = loginData;
@@ -55,6 +78,49 @@ export const register = (registerData) => async dispatch => {
     }
 }
 
+export const getUser = (display_name) => async dispatch => {
+    const getUserRes = await fetch(`${apiBaseUrl}/users/${display_name}`);
+
+    if (getUserRes.ok) {
+        const { display_name, bio, profile_img, user_id } = await getUserRes.json();
+        dispatch(loadUser(display_name, bio, profile_img, user_id))
+    }
+}
+
+export const submitProfileEdit = (editFormData, bio_content, token) => async dispatch => {
+    if (editFormData) {
+        const imageRes = await fetch(`${apiBaseUrl}/users/profileImg`, {
+            method: "PUT",
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+            body: editFormData,
+        })
+
+        if (imageRes.ok) {
+            const { profile_img, user_id } = await imageRes.json();
+            dispatch(updatePFP(profile_img, user_id))
+        }
+    }
+
+    if (bio_content) {
+        const bioRes = await fetch(`${apiBaseUrl}/users/edit-bio`, {
+            method: "PUT",
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ bio_content }),
+        })
+        if (bioRes.ok) {
+            const { bio_content, user_id } = await bioRes.json();
+            dispatch(updateBio(bio_content, user_id))
+        }
+    }
+
+
+}
+
 export default function reducer(state = {}, action) {
     switch (action.type) {
         case LOGIN_USER: {
@@ -74,6 +140,52 @@ export default function reducer(state = {}, action) {
         }
         case LOGOUT_USER: {
             return {}
+        }
+        case LOAD_USER: {
+            return {
+                ...state,
+                public_profiles: {
+                    ...state.public_profiles,
+                    [`user_${action.user_id}`]: {
+                        display_name: action.display_name,
+                        bio: action.bio,
+                        profile_img: action.profile_img,
+                    }
+                }
+            }
+        }
+        case UPDATE_PFP: {
+            return {
+                ...state,
+                account: {
+                    ...state.account,
+                    profile_img: action.profile_img,
+                },
+                public_profiles: {
+                    ...state.public_profiles,
+                    [`user_${action.user_id}`]: {
+                        ...state.public_profiles[`user_${action.user_id}`],
+                        profile_img: action.profile_img,
+                    }
+                }
+            }
+        }
+        case UPDATE_BIO: {
+            return {
+                ...state,
+                textContent: {},
+                account: {
+                    ...state.account,
+                    bio: action.bio,
+                },
+                public_profiles: {
+                    ...state.public_profiles,
+                    [`user_${action.user_id}`]: {
+                        ...state.public_profiles[`user_${action.user_id}`],
+                        bio: action.bio,
+                    }
+                }
+            }
         }
         default: return state;
     }

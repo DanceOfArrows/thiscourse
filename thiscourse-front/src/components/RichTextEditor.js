@@ -2,6 +2,7 @@ import React from 'react';
 import { Editor, EditorState, getDefaultKeyBinding, RichUtils } from 'draft-js';
 import { connect } from 'react-redux';
 import { stateToHTML } from 'draft-js-export-html';
+import { stateFromHTML } from 'draft-js-import-html';
 
 import { getCurrentContent } from '../redux/createThread';
 import './styles/RichTextEditor.css';
@@ -12,7 +13,13 @@ const MAX_LENGTH = 5000;
 class RichTextEditor extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { editorState: EditorState.createEmpty() };
+
+        let editorState = EditorState.createEmpty();
+        if (props.content) {
+            editorState = EditorState.createWithContent(stateFromHTML(this.props.content));
+        }
+
+        this.state = { editorState };
 
         this.editor = null;
         this.onChange = (editorState) => this.setState({ editorState });

@@ -26,16 +26,41 @@ html, body {
     margin: 0;
 }
 
-.page-body {
+.page-body, .page-container {
     background-color: #222222;
     flex-grow: 1;
     height: 100%;
     margin: 0;
     overflow: auto;
+    
 }
 
 ul {
     list-style: none;
     padding: 0;
     margin: 0;
+}
+
+/* Page Transitions */
+.fade-enter {
+    opacity: 0;
+    transition: opacity 300ms ease-in;
+}
+.fade-enter.fade-enter-active {
+    opacity: 1;
+    z-index: 3;
+}
+.fade-exit {
+    opacity: 1;
+    transition: opacity 300ms ease-in;
+}
+.fade-exit.fade-exit-active {
+    opacity: 0;
+}
+
+.page-body {
+    height: auto;
+    width: 100%;
+    position: absolute;
+    transition: all 300ms;
 }

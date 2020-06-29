@@ -1,9 +1,9 @@
 const SAVE_CONTENT = 'thiscourse/CreateThread/SAVE_CONTENT';
 
-export const saveContent = (threadContent) => ({ type: SAVE_CONTENT, threadContent });
+export const saveContent = (textContent) => ({ type: SAVE_CONTENT, textContent });
 
-export const getCurrentContent = (threadContent) => dispatch => {
-    dispatch(saveContent(threadContent));
+export const getCurrentContent = (textContent) => dispatch => {
+    dispatch(saveContent(textContent));
 }
 
 export default function reducer(state = {}, action) {
@@ -11,7 +11,7 @@ export default function reducer(state = {}, action) {
         case SAVE_CONTENT: {
             return {
                 ...state,
-                threadContent: action.threadContent,
+                textContent: action.textContent,
             }
         }
         default: return state;

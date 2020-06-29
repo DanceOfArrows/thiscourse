@@ -22,7 +22,7 @@ const Threads = (props) => {
                 props.categories[`category_${categoryId}`].threads ? (
                     Object.keys(props.categories[`category_${categoryId}`].threads).map(thread => {
                         const threadObj = props.categories[`category_${categoryId}`].threads[thread];
-                        const threadId = parseInt(thread.match(/\d+/), 10);
+                        // const threadId = parseInt(thread.match(/\d+/), 10);
                         const threadTitleUri = encodeURI(threadObj.title);
 
                         const createdDate = epochToDate(threadObj.createdAt);

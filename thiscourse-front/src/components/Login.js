@@ -7,8 +7,8 @@ import './styles/Login.css';
 
 const Login = (props) => {
     const [loginData, setLoginData] = React.useState({
-        usernameEmail: '',
-        password: '',
+        usernameEmail: 'demo_user',
+        password: 'Password1!',
     })
 
     const updateUsername = (e) => {
@@ -42,12 +42,14 @@ const Login = (props) => {
                                 name='username'
                                 onChange={updateUsername}
                                 placeholder='Username or Email'
+                                value={loginData.usernameEmail}
                             />
                             <input
                                 type='password'
                                 name='password'
                                 onChange={updatePassword}
                                 placeholder='Password'
+                                value={loginData.password}
                             />
                             <button type='submit'>Login</button>
                         </form>

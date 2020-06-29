@@ -3,6 +3,7 @@ import { apiBaseUrl } from '../config';
 const ADD_THREAD = 'thiscourse/Home/ADD_THREAD';
 const LOAD_CATEGORIES = 'thiscourse/Home/LOAD_CATEGORIES';
 const LOAD_THREADS = 'thiscourse/Home/LOAD_THREADS';
+const LOAD_THREAD = 'thiscourse/Home/LOAD_THREAD';
 
 export const loadCategories = (categories) => ({
     type: LOAD_CATEGORIES,
@@ -13,6 +14,13 @@ export const loadThreads = (threads, categoryId) => ({
     type: LOAD_THREADS,
     categoryId,
     threads,
+});
+
+export const loadThread = (category_id, content, thread_id) => ({
+    type: LOAD_THREAD,
+    category_id,
+    content,
+    thread_id
 });
 
 export const addThread = () => ({
@@ -71,6 +79,22 @@ export const createThread = (threadData, category_id, token) => async dispatch =
     }
 }
 
+export const editThread = (newContent, thread_id, token) => async dispatch => {
+    const threadEditRes = await fetch(`${apiBaseUrl}/edit-thread`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ content: newContent, thread_id }),
+    });
+
+    if (threadEditRes.ok) {
+        const { category_id, content } = await threadEditRes.json();
+        dispatch(loadThread(category_id, content, thread_id))
+    }
+}
+
 export default function reducer(state = {}, action) {
     switch (action.type) {
         case LOAD_CATEGORIES: {
@@ -88,6 +112,24 @@ export default function reducer(state = {}, action) {
                     [`category_${action.categoryId}`]: {
                         ...state.categories[`category_${action.categoryId}`],
                         threads: action.threads,
+                    }
+                },
+            }
+        }
+        case LOAD_THREAD: {
+            return {
+                ...state,
+                categories: {
+                    ...state.categories,
+                    [`category_${action.category_id}`]: {
+                        ...state.categories[`category_${action.category_id}`],
+                        threads: {
+                            ...state.categories[`category_${action.category_id}`].threads,
+                            [`thread_${action.thread_id}`]: {
+                                ...state.categories[`category_${action.category_id}`].threads[`thread_${action.thread_id}`],
+                                content: action.content,
+                            }
+                        },
                     }
                 },
             }

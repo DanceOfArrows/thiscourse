@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { logout } from '../redux/user';
 
 import './styles/NavBar.css';
+import ThiscourseLogo from '../assets/Thiscourse.png';
 
 export const handeLoginDisplay = () => {
     const loginForm = document.querySelector('.login-container');
@@ -29,7 +30,9 @@ const NavBar = (props) => {
         <>
             <div className='navbar-container'>
                 <div className='navbar-leftColumn'>
-                    {/* Logo Here */}
+                    <NavLink to='/' className='navbar-logo-container'>
+                        <img src={ThiscourseLogo} alt='Logo' />
+                    </NavLink>
                 </div>
                 <nav className='navbar-rightColumn'>
                     <NavLink to='/' exact activeClassName="active-link">Home</NavLink>

@@ -151,6 +151,33 @@ router.post('/:categoryId/new-thread', requireUserAuth, asyncHandler(async (req,
     })
 }));
 
+// Edit a thread
+router.put('/edit-thread', requireUserAuth, asyncHandler(async (req, res, next) => {
+    const { content, thread_id } = req.body;
+    const thread = await Thread.findByPk(thread_id);
+
+    if (thread) {
+        await thread.update({ content });
+    }
+
+    res.json({ category_id: thread.category_id, content });
+}));
+
+// Delete a thread
+router.post('/delete-thread', requireUserAuth, asyncHandler(async (req, res, next) => {
+    const { category_id, thread_id } = req.body;
+    const thread = await Thread.findByPk(thread_id);
+    const category = await Category.findByPk(category_id);
+
+    const { name } = category;
+
+    if (thread) {
+        thread.destroy();
+    }
+
+    res.json({ redirectUrl: `/c/${name}` })
+}));
+
 // Get comments with thread id
 router.get('/comments/:thread_id', asyncHandler(async (req, res, next) => {
     const comments = await Comment.findAll({

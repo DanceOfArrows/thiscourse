@@ -7,7 +7,7 @@ const page404 = () => {
         <>
             <div className='page-404'>
                 <p>
-                    This page is practicing social isolation due to the recent virus outbreak.
+                    This page does not exist.
                 </p>
             </div>
         </>
