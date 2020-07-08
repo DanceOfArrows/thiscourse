@@ -24,7 +24,7 @@ function App(props) {
         <TransitionGroup className='page-container'>
           <CSSTransition
             key={location.key}
-            timeout={300}
+            timeout={100}
             classNames='fade'
           >
             <div className='page-body'>

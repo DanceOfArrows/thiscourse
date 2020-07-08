@@ -67,7 +67,7 @@ const CreateThread = (props) => {
 
         const { title, tags } = threadData;
         const user_id = postFormData.get('user_id');
-        props.createThread({ user_id, title, content: props.threadContent, tags }, categoryId, props.token);
+        props.createThread({ user_id, title, content: props.textContent, tags }, categoryId, props.token);
     }
 
     if (props.redirect) return (<Redirect to={`/c/${currentCategoryName}`} />);
@@ -116,7 +116,7 @@ const mapStateToProps = state => {
     return {
         categories: state.category.categories,
         redirect: state.category.redirect,
-        threadContent: state.createThread.threadContent,
+        textContent: state.createThread.textContent,
         user: state.user.account,
         token: state.user.session.token,
     };

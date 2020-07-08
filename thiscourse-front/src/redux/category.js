@@ -4,6 +4,7 @@ const ADD_THREAD = 'thiscourse/Home/ADD_THREAD';
 const LOAD_CATEGORIES = 'thiscourse/Home/LOAD_CATEGORIES';
 const LOAD_THREADS = 'thiscourse/Home/LOAD_THREADS';
 const LOAD_THREAD = 'thiscourse/Home/LOAD_THREAD';
+const LOAD_COMMENTS = 'thiscourse/Comments/LOAD_COMMENTS';
 
 export const loadCategories = (categories) => ({
     type: LOAD_CATEGORIES,
@@ -25,6 +26,13 @@ export const loadThread = (category_id, content, thread_id) => ({
 
 export const addThread = () => ({
     type: ADD_THREAD,
+});
+
+export const loadComments = (categoryId, comments, threadId) => ({
+    type: LOAD_COMMENTS,
+    categoryId,
+    comments,
+    threadId,
 });
 
 export const getCategories = () => async dispatch => {
@@ -95,6 +103,16 @@ export const editThread = (newContent, thread_id, token) => async dispatch => {
     }
 }
 
+export const getComments = (categoryId, threadId) => async dispatch => {
+    const commentsRes = await fetch(`${apiBaseUrl}/comments/${threadId}`);
+
+    if (commentsRes.ok) {
+        const comments = await commentsRes.json();
+
+        dispatch(loadComments(categoryId, comments, threadId));
+    }
+};
+
 export default function reducer(state = {}, action) {
     switch (action.type) {
         case LOAD_CATEGORIES: {
@@ -138,6 +156,24 @@ export default function reducer(state = {}, action) {
             return {
                 ...state,
                 redirect: true,
+            }
+        }
+        case LOAD_COMMENTS: {
+            return {
+                ...state,
+                categories: {
+                    ...state.categories,
+                    [`category_${action.categoryId}`]: {
+                        ...state.categories[`category_${action.categoryId}`],
+                        threads: {
+                            ...state.categories[`category_${action.categoryId}`].threads,
+                            [`thread_${action.threadId}`]: {
+                                ...state.categories[`category_${action.categoryId}`].threads[`thread_${action.threadId}`],
+                                comments: action.comments,
+                            }
+                        },
+                    }
+                },
             }
         }
         default: return state;

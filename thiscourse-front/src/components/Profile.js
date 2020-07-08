@@ -11,15 +11,15 @@ const Profile = (props) => {
     const pathSplit = path.split('/');
     const display_name = pathSplit[2];
 
-    let currentProfile;
-
-    const [imagePreview, setImagePreview] = useState({ file: '', imagePreviewUrl: '', edited: false })
-    const [textEdited, setTextEdited] = useState({ active: false })
-
     const { getUser } = props;
     useEffect(() => {
         getUser(display_name);
     }, [display_name, getUser])
+
+    let currentProfile;
+
+    const [imagePreview, setImagePreview] = useState({ file: '', imagePreviewUrl: '', edited: false })
+    const [textEdited, setTextEdited] = useState({ active: false })
 
     if (props.profiles) {
         Object.keys(props.profiles).forEach(profile => {
@@ -48,6 +48,7 @@ const Profile = (props) => {
             edited: false,
         });
         setTextEdited({ ...textEdited, active: false });
+        toggleEdit();
     }
 
     const handleImageChange = (e) => {
@@ -170,7 +171,7 @@ const Profile = (props) => {
                                                 {props.content ? (
                                                     renderHTML(props.content)
                                                 ) : <>
-                                                        {currentProfile.bio}
+                                                        {renderHTML(currentProfile.bio)}
                                                     </>}
                                             </div>
                                         </div>
@@ -202,12 +203,14 @@ const mapStateToProps = state => {
             account: state.user.account,
             categories: state.category.categories,
             content: state.createThread.textContent,
+            profiles: state.user.public_profiles,
             token: state.user.session.token,
         };
     }
     return {
         categories: state.category.categories,
         content: state.createThread.textContent,
+        profiles: state.user.public_profiles,
     };
 };
 

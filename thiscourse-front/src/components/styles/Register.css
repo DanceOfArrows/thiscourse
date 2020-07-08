@@ -63,12 +63,12 @@
 }
 
 .ReactPasswordStrength {
-    border: none;
+    border: none !important;
 }
 
 .ReactPasswordStrength-input {
-    font-size: revert;
-    width: revert;
+    font-size: revert !important;
+    width: revert !important;
 }
 
 .ReactPasswordStrength-strength-desc {

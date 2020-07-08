@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 import { NavLink, useHistory } from 'react-router-dom';
 import renderHTML from 'react-render-html';
 
+import Comments from './Comments';
 import ForumNav from './ForumNav';
 import RichTextEditor from './RichTextEditor';
 import ScrollToTop from './ScrollToTop';
@@ -172,6 +173,7 @@ const Thread = (props) => {
                 </>
             ) : <h1>Loading</h1>}
             <ScrollToTop />
+            {currentThread && categoryId ? <Comments threadId={currentThread.thread_id} categoryId={categoryId} /> : <h1>Loading</h1>}
         </>
     )
 }
