@@ -164,7 +164,7 @@ router.put('/edit-thread', requireUserAuth, asyncHandler(async (req, res, next) 
 }));
 
 // Delete a thread
-router.post('/delete-thread', requireUserAuth, asyncHandler(async (req, res, next) => {
+router.delete('/delete-thread', requireUserAuth, asyncHandler(async (req, res, next) => {
     const { category_id, thread_id } = req.body;
     const thread = await Thread.findByPk(thread_id);
     const category = await Category.findByPk(category_id);
@@ -187,19 +187,22 @@ router.get('/comments/:thread_id', asyncHandler(async (req, res, next) => {
     });
 
     const commentReturnObj = {};
-    comments.forEach(comment => {
+    await Promise.all(comments.map(async (comment) => {
         const commentData = comment.dataValues;
         const { user_id, content, is_locked, createdAt, updatedAt } = commentData;
 
+        const user = await User.findByPk(user_id);
+        const { display_name, profile_img } = user;
+
         commentReturnObj[`comment_${commentData.id}`] = {
-            user_id,
             content,
             is_locked,
             createdAt,
-            updatedAt
+            updatedAt,
+            commentOwner: { user_id, display_name, profile_img },
         }
         return;
-    })
+    }))
 
     res.json(commentReturnObj);
 }));

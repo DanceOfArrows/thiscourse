@@ -29,6 +29,7 @@ const Thread = (props) => {
     let title = categoryInfo.split('-')[1];
     let categoryId;
     let currentThread;
+    let threads;
 
     if (props.categories) {
         categoryId = Number.parseInt(categoryInfo.split('-')[0], 10);
@@ -47,13 +48,17 @@ const Thread = (props) => {
         }
     }
 
+    if (props.categories) {
+        threads = props.categories[`category_${categoryId}`].threads;
+    }
+
     const { getCategories, getThreads } = props;
     useEffect(() => {
         if (!props.categories) getCategories();
     }, [getCategories, props.categories])
     useEffect(() => {
-        if (categoryId) getThreads(categoryId);
-    }, [categoryId, getThreads]);
+        if (categoryId && !threads) getThreads(categoryId);
+    }, [categoryId, getThreads, threads]);
 
     let history = useHistory();
 
@@ -74,6 +79,10 @@ const Thread = (props) => {
             const { redirectUrl } = await deleteRes.json();
             history.push(redirectUrl);
         }
+    }
+
+    const submitReply = (e) => {
+        e.preventDefault();
     }
 
     const toggleEdit = (e) => {
@@ -140,28 +149,35 @@ const Thread = (props) => {
                                     </div>
                                     <form className='thread-content-form'>
 
-                                        {props.account ? (<>
-                                            {
-                                                currentThread.threadOwner.user_id === props.account.userId ? (
-                                                    <>
-                                                        <div className='thread-content-edit' style={{ display: 'none' }}>
-                                                            <RichTextEditor content={currentThread.content} />
-                                                        </div>
-                                                        <div className='thread-user-actions'>
-                                                            <button className='thread-edit-btn' onClick={toggleEdit}>
-                                                                Edit Thread
+                                        {props.account ? (
+                                            <>
+                                                <div className='thread-user-actions'>
+                                                    <div className='thread-reply'>
+                                                        <button className='thread-edit-btn' onClick={submitReply}>
+                                                            Reply
                                                         </button>
-                                                            <button className='thread-edit-submit-btn' onClick={submitEdit} style={{ display: 'none' }} >
-                                                                Submit
-                                                        </button>
-                                                            <button className='thread-delete-btn' onClick={deletePost}>
-                                                                Delete Thread
-                                                        </button>
-                                                        </div>
-                                                    </>
-                                                ) : <></>
-                                            }
-                                        </>) : <></>
+                                                    </div>
+                                                    {
+                                                        currentThread.threadOwner.user_id === props.account.userId ? (
+                                                            <>
+                                                                <div className='thread-content-edit' style={{ display: 'none' }}>
+                                                                    <RichTextEditor content={currentThread.content} />
+                                                                </div>
+
+                                                                <button className='thread-edit-btn' onClick={toggleEdit}>
+                                                                    Edit Thread
+                                                                </button>
+                                                                <button className='thread-edit-submit-btn' onClick={submitEdit} style={{ display: 'none' }} >
+                                                                    Submit
+                                                                </button>
+                                                                <button className='thread-delete-btn' onClick={deletePost}>
+                                                                    Delete Thread
+                                                                </button>
+                                                            </>
+                                                        ) : <></>
+                                                    }
+                                                </div>
+                                            </>) : <></>
                                         }
                                     </form>
 
@@ -173,7 +189,12 @@ const Thread = (props) => {
                 </>
             ) : <h1>Loading</h1>}
             <ScrollToTop />
-            {currentThread && categoryId ? <Comments threadId={currentThread.thread_id} categoryId={categoryId} /> : <h1>Loading</h1>}
+            {currentThread && categoryId ?
+                <Comments
+                    threadId={currentThread.thread_id}
+                    categoryId={categoryId}
+                    epochToDate={epochToDate}
+                /> : <h1>Loading</h1>}
         </>
     )
 }
