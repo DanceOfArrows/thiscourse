@@ -9,7 +9,7 @@ const { environment } = require("./config");
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const categoriesRouter = require('./routes/categories');
-
+const threadRouter = require('./routes/thread');
 
 const app = express();
 
@@ -27,6 +27,7 @@ app.use(bodyParser.raw({
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/', categoriesRouter);
+app.use('/', threadRouter);
 
 app.use((req, res, next) => {
     const err = new Error("The requested resource couldn't be found.");

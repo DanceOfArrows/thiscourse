@@ -6,7 +6,7 @@ module.exports = {
       {
         user_id: 1,
         thread_id: 1,
-        content: 'Chronicles of the Heavenly Demon',
+        content: 'This is a demo comment',
         is_locked: false,
         createdAt: new Date(),
         updatedAt: new Date(),

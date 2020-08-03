@@ -1,14 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { NavLink, useHistory } from 'react-router-dom';
 import renderHTML from 'react-render-html';
+import { EditorState, convertToRaw } from 'draft-js'
 
 import Comments from './Comments';
 import ForumNav from './ForumNav';
 import RichTextEditor from './RichTextEditor';
 import ScrollToTop from './ScrollToTop';
-import { editThread, getCategories, getThreads } from '../redux/category';
+import { createComment, editThread, getCategories, getThreads } from '../redux/category';
+import { getThreadContent, getCommentContent } from '../redux/createThread';
 import { apiBaseUrl } from '../config';
 import './styles/Thread.css';
 
@@ -64,25 +66,11 @@ const Thread = (props) => {
 
     const deletePost = async (e) => {
         e.preventDefault();
-        const token = props.token;
-        const { category_id, thread_id } = currentThread;
-        const deleteRes = await fetch(`${apiBaseUrl}/delete-thread`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({ category_id, thread_id }),
-        })
-
-        if (deleteRes.ok) {
-            const { redirectUrl } = await deleteRes.json();
-            history.push(redirectUrl);
-        }
     }
 
-    const submitReply = (e) => {
-        e.preventDefault();
+    const submitReply = () => {
+        const commentData = { user_id: props.account.userId, content: props.commentContent };
+        props.createComment(commentData, categoryId, currentThread.thread_id, props.token);
     }
 
     const toggleEdit = (e) => {
@@ -148,22 +136,19 @@ const Thread = (props) => {
                                         {renderHTML(currentThread.content)}
                                     </div>
                                     <form className='thread-content-form'>
-
                                         {props.account ? (
                                             <>
+                                                {
+                                                    currentThread.threadOwner.user_id === props.account.userId ? (
+                                                        <div className='thread-content-edit' style={{ display: 'none' }}>
+                                                            <RichTextEditor content={currentThread.content} getContent={props.getThreadContent} />
+                                                        </div>
+                                                    ) : <></>
+                                                }
                                                 <div className='thread-user-actions'>
-                                                    <div className='thread-reply'>
-                                                        <button className='thread-edit-btn' onClick={submitReply}>
-                                                            Reply
-                                                        </button>
-                                                    </div>
                                                     {
                                                         currentThread.threadOwner.user_id === props.account.userId ? (
                                                             <>
-                                                                <div className='thread-content-edit' style={{ display: 'none' }}>
-                                                                    <RichTextEditor content={currentThread.content} />
-                                                                </div>
-
                                                                 <button className='thread-edit-btn' onClick={toggleEdit}>
                                                                     Edit Thread
                                                                 </button>
@@ -188,13 +173,27 @@ const Thread = (props) => {
                     </div>
                 </>
             ) : <h1>Loading</h1>}
-            <ScrollToTop />
+            <div className='thread-reply-box'>
+                <div className='thread-container'>
+                    <>
+                        <div className='thread-left-section'></div>
+                        <div className='thread-right-section'>
+                            <div className='thread-title'>Reply</div>
+                            <div className='thread-content'>
+                                <RichTextEditor account={props.account} getContent={props.getCommentContent} submit={submitReply} />
+                            </div>
+                        </div>
+                    </>
+                </div>
+            </div>
             {currentThread && categoryId ?
                 <Comments
                     threadId={currentThread.thread_id}
                     categoryId={categoryId}
                     epochToDate={epochToDate}
-                /> : <h1>Loading</h1>}
+                /> : <h1>Loading</h1>
+            }
+            <ScrollToTop />
         </>
     )
 }
@@ -204,21 +203,26 @@ const mapStateToProps = state => {
         return {
             account: state.user.account,
             categories: state.category.categories,
-            content: state.createThread.textContent,
+            content: state.createThread.threadContent,
+            commentContent: state.createThread.commentContent,
             token: state.user.session.token,
         };
     }
     return {
         categories: state.category.categories,
         content: state.createThread.textContent,
+        commentContent: state.createThread.commentContent,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
+        createComment: (...args) => dispatch(createComment(...args)),
         editThread: (...args) => dispatch(editThread(...args)),
         getCategories: () => dispatch(getCategories()),
         getThreads: (...args) => dispatch(getThreads(...args)),
+        getThreadContent: (...args) => dispatch(getThreadContent(...args)),
+        getCommentContent: (...args) => dispatch(getCommentContent(...args)),
     }
 };
 

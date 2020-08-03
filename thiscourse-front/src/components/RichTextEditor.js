@@ -1,10 +1,9 @@
 import React from 'react';
-import { Editor, EditorState, getDefaultKeyBinding, RichUtils } from 'draft-js';
+import { ContentState, Editor, EditorState, getDefaultKeyBinding, Modifier, RichUtils, SelectionState } from 'draft-js';
 import { connect } from 'react-redux';
 import { stateToHTML } from 'draft-js-export-html';
 import { stateFromHTML } from 'draft-js-import-html';
 
-import { getCurrentContent } from '../redux/createThread';
 import './styles/RichTextEditor.css';
 import '../../node_modules/draft-js/dist/Draft.css';
 
@@ -20,18 +19,22 @@ class RichTextEditor extends React.Component {
         }
 
         this.state = { editorState };
-
         this.editor = null;
-        this.onChange = (editorState) => this.setState({ editorState });
-        this.onBlur = () => {
-            const threadContent = stateToHTML(this.state.editorState.getCurrentContent());
-            props.getCurrentContent(threadContent);
+        this.onChange = (editorState) => {
+            this.setState({ editorState })
         };
+        this.onBlur = (editorState) => {
+            const threadContent = stateToHTML(this.state.editorState.getCurrentContent());
+            props.getContent(threadContent);
 
+
+        };
         this.handleKeyCommand = this._handleKeyCommand.bind(this);
         this.mapKeyToEditorCommand = this._mapKeyToEditorCommand.bind(this);
         this.toggleBlockType = this._toggleBlockType.bind(this);
         this.toggleInlineStyle = this._toggleInlineStyle.bind(this);
+        this.reset = this.reset.bind(this);
+        this.submitContent = this.submitContent.bind(this);
     }
 
     _getLength = () => {
@@ -101,11 +104,19 @@ class RichTextEditor extends React.Component {
         );
     }
 
+    reset() {
+        const emptyEditorState = EditorState.push(this.state.editorState, ContentState.createFromText(''));
+        this.setState({ editorState: emptyEditorState });
+    }
+
+    submitContent(e) {
+        e.preventDefault();
+        this.props.submit();
+        this.reset();
+    }
+
     render() {
         const { editorState } = this.state;
-
-        // If the user changes block type before entering any text, we can
-        // either style the placeholder or hide it. Let's just hide it now.
         let className = 'RichEditor-editor';
         var contentState = editorState.getCurrentContent();
         if (!contentState.hasText()) {
@@ -115,33 +126,44 @@ class RichTextEditor extends React.Component {
         }
 
         return (
-            <div className="RichEditor-root">
-                <InlineStyleControls
-                    editorState={editorState}
-                    onToggle={this.toggleInlineStyle}
-                />
-                <BlockStyleControls
-                    editorState={editorState}
-                    onToggle={this.toggleBlockType}
-                />
-                <div className={className} onClick={() => this.editor.focus()}>
-                    <Editor
-                        blockStyleFn={getBlockStyle}
-                        customStyleMap={styleMap}
+            <>
+                <div className="RichEditor-root">
+                    <InlineStyleControls
                         editorState={editorState}
-                        handleKeyCommand={this.handleKeyCommand}
-                        handleBeforeInput={this._handleBeforeInput}
-                        handlePastedText={this._handlePastedText}
-                        keyBindingFn={this.mapKeyToEditorCommand}
-                        onBlur={this.onBlur}
-                        onChange={this.onChange}
-                        placeholder=""
-                        ref={editor => { this.editor = editor }}
-                        spellCheck={true}
+                        onToggle={this.toggleInlineStyle}
                     />
+                    <BlockStyleControls
+                        editorState={editorState}
+                        onToggle={this.toggleBlockType}
+                    />
+                    <div className={className} onClick={() => this.editor.focus()}>
+                        <Editor
+                            blockStyleFn={getBlockStyle}
+                            customStyleMap={styleMap}
+                            editorState={editorState}
+                            handleKeyCommand={this.handleKeyCommand}
+                            handleBeforeInput={this._handleBeforeInput}
+                            handlePastedText={this._handlePastedText}
+                            keyBindingFn={this.mapKeyToEditorCommand}
+                            onBlur={this.onBlur}
+                            onChange={this.onChange}
+                            placeholder=""
+                            ref={editor => { this.editor = editor }}
+                            spellCheck={true}
+                        />
+                    </div>
+                    <div className="RichEditor-characterCount">Characters remaining: {this._getLength()}</div>
                 </div>
-                <div className="RichEditor-characterCount">Characters remaining: {this._getLength()}</div>
-            </div>
+                <form className='thread-content-form'>
+                    {this.props.account ? (
+                        <div className='thread-reply'>
+                            <button className='thread-reply-btn' type='submit' onClick={this.submitContent}>
+                                Reply
+                            </button>
+                        </div>
+                    ) : <></>}
+                </form>
+            </>
 
         );
     }
@@ -241,13 +263,15 @@ const BlockStyleControls = (props) => {
 
 const mapStateToProps = state => {
     return {
+        textContent: state.createThread.textContent,
         threadContent: state.createThread.threadContent,
+        commentContent: state.createThread.commentContent,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        getCurrentContent: (...args) => dispatch(getCurrentContent(...args)),
+
     }
 };
 

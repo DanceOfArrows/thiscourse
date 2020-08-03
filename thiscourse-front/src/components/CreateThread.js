@@ -5,6 +5,7 @@ import { WithContext as ReactTags } from 'react-tag-input';
 
 import RichTextEditor from './RichTextEditor';
 import { createThread, getCategories } from '../redux/category';
+import { getCurrentContent } from '../redux/createThread';
 import './styles/CreateThread.css';
 
 const KeyCodes = {
@@ -86,7 +87,7 @@ const CreateThread = (props) => {
                                 placeholder='Title'
                                 maxLength={255}
                             />
-                            <RichTextEditor />
+                            <RichTextEditor getContent={props.getCurrentContent} />
                             <div className='thread-tags-container'>
                                 <ReactTags
                                     tags={threadData.tags}
@@ -126,6 +127,7 @@ const mapDispatchToProps = dispatch => {
     return {
         createThread: (...args) => dispatch(createThread(...args)),
         getCategories: () => dispatch(getCategories()),
+        getCurrentContent: (...args) => dispatch(getCurrentContent(...args)),
     }
 };
 

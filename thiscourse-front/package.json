@@ -10,6 +10,8 @@
     "draft-js": "^0.11.6",
     "draft-js-export-html": "^1.4.1",
     "draft-js-import-html": "^1.4.1",
+    "draftjs-utils": "^0.10.2",
+    "immutable": "^4.0.0-rc.12",
     "react": "^16.13.1",
     "react-dnd": "^5.0.0",
     "react-dnd-html5-backend": "^3.0.2",

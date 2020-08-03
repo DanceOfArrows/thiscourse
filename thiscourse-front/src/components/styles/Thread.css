@@ -126,13 +126,13 @@
     margin-top: auto;
 }
 
-.thread-user-actions {
+.thread-user-actions, .thread-reply {
     display: flex;
     justify-content: flex-end;
     width: 100%;
 }
 
-.thread-user-actions button {
+.thread-user-actions button, .thread-reply-btn {
     border-style:solid; 
     border-radius:7px; 
     border-width:1px; 
