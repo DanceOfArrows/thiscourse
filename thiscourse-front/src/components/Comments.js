@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import renderHTML from 'react-render-html';
 
-import { deleteComment, getComments } from '../redux/category';
+import { editComment, deleteComment, getComments } from '../redux/category';
 import { getCommentContent } from '../redux/createThread';
 import RichTextEditor from './RichTextEditor';
 import './styles/Comments.css';
@@ -48,6 +48,9 @@ const Comments = props => {
 
     const submitEdit = (e) => {
         e.preventDefault();
+        const commentId = Number.parseInt(e.target.value, 10);
+        props.editComment(commentId, props.token, categoryId, threadId, props.commentContent);
+        toggleEdit(e);
     }
 
     return (
@@ -115,8 +118,7 @@ const Comments = props => {
                                     </div>
                                 )
                             }
-
-
+                            return <></>
                         })}
                     </>) : <h1>Loading</h1>}
             </div>
@@ -129,6 +131,7 @@ const mapStateToProps = state => {
         return {
             account: state.user.account,
             categories: state.category.categories,
+            commentContent: state.createThread.commentContent,
             content: state.createThread.textContent,
             token: state.user.session.token,
         };
@@ -142,6 +145,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        editComment: (...args) => dispatch(editComment(...args)),
         deleteComment: (...args) => dispatch(deleteComment(...args)),
         getComments: (...args) => dispatch(getComments(...args)),
         getCommentContent: (...args) => dispatch(getCommentContent(...args)),

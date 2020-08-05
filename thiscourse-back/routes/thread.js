@@ -190,10 +190,37 @@ router.delete('/delete-comment', requireUserAuth, asyncHandler(async (req, res, 
     const comment = await Comment.findByPk(comment_id);
 
     if (comment && (req.user.dataValues.id === comment.user_id)) {
-        comment.destroy();
+        await comment.destroy();
+        res.json({});
     }
+}));
 
-    res.json({});
+// Edit a comment
+router.put('/edit-comment', requireUserAuth, asyncHandler(async (req, res, next) => {
+    const { comment_id, content } = req.body;
+    const comment = await Comment.findByPk(comment_id);
+
+    if (comment && (req.user.dataValues.id === comment.user_id)) {
+        const user = await User.findByPk(comment.user_id);
+        const { display_name, profile_img } = user;
+
+        comment.content = content;
+        await comment.save()
+
+        const { is_locked, createdAt, updatedAt } = comment;
+        const commentNum = comment.id;
+        res.json({
+            commentData: {
+                comment_id: comment.id,
+                content,
+                is_locked,
+                createdAt,
+                updatedAt,
+                commentOwner: { user_id: comment.user_id, display_name, profile_img }
+            },
+            commentNum
+        });
+    }
 }));
 
 module.exports = router;

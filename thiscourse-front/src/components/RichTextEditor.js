@@ -1,5 +1,5 @@
 import React from 'react';
-import { ContentState, Editor, EditorState, getDefaultKeyBinding, Modifier, RichUtils, SelectionState } from 'draft-js';
+import { ContentState, Editor, EditorState, getDefaultKeyBinding, RichUtils } from 'draft-js';
 import { connect } from 'react-redux';
 import { stateToHTML } from 'draft-js-export-html';
 import { stateFromHTML } from 'draft-js-import-html';

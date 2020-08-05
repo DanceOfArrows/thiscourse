@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import renderHTML from 'react-render-html';
-import { EditorState, convertToRaw } from 'draft-js'
 
 import Comments from './Comments';
 import ForumNav from './ForumNav';
@@ -11,7 +10,6 @@ import RichTextEditor from './RichTextEditor';
 import ScrollToTop from './ScrollToTop';
 import { createComment, editThread, getCategories, getThreads } from '../redux/category';
 import { getThreadContent, getCommentContent } from '../redux/createThread';
-import { apiBaseUrl } from '../config';
 import './styles/Thread.css';
 
 const epochToDate = (epoch) => {
@@ -61,8 +59,6 @@ const Thread = (props) => {
     useEffect(() => {
         if (categoryId && !threads) getThreads(categoryId);
     }, [categoryId, getThreads, threads]);
-
-    let history = useHistory();
 
     const deletePost = async (e) => {
         e.preventDefault();

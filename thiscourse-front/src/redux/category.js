@@ -5,6 +5,7 @@ const LOAD_CATEGORIES = 'thiscourse/Home/LOAD_CATEGORIES';
 const LOAD_THREADS = 'thiscourse/Home/LOAD_THREADS';
 const LOAD_THREAD = 'thiscourse/Home/LOAD_THREAD';
 const ADD_COMMENT = 'thiscourse/Thread/ADD_COMMENT';
+const CHANGE_COMMENT = 'thiscourse/Thread/CHANGE_COMMENT';
 const REMOVE_COMMENT = 'thiscourse/Thread/REMOVE_COMMENT';
 const LOAD_COMMENTS = 'thiscourse/Comments/LOAD_COMMENTS';
 
@@ -30,7 +31,12 @@ export const addThread = () => ({
     type: ADD_THREAD,
 });
 
-export const addComment = (categoryId, commentData, commentNum, threadId) => ({ type: ADD_COMMENT, categoryId, commentData, commentNum, threadId });
+export const addComment = (categoryId, commentData, commentNum, threadId) => (
+    { type: ADD_COMMENT, categoryId, commentData, commentNum, threadId }
+);
+export const changeComment = (categoryId, commentData, commentNum, threadId) => (
+    { type: CHANGE_COMMENT, categoryId, commentData, commentNum, threadId }
+);
 export const removeComment = (categoryId, commentNum, threadId) => ({ type: REMOVE_COMMENT, categoryId, commentNum, threadId });
 export const loadComments = (categoryId, comments, threadId) => ({
     type: LOAD_COMMENTS,
@@ -149,6 +155,23 @@ export const deleteComment = (comment_id, token, category_id, thread_id) => asyn
     }
 }
 
+export const editComment = (comment_id, token, category_id, thread_id, content) => async dispatch => {
+    const editRes = await fetch(`${apiBaseUrl}/edit-comment`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ comment_id, content }),
+    })
+
+    if (editRes.ok) {
+        const editResData = await editRes.json();
+        const { commentData, commentNum } = editResData;
+        dispatch(changeComment(category_id, commentData, commentNum, thread_id));
+    }
+}
+
 export default function reducer(state = {}, action) {
     switch (action.type) {
         case LOAD_CATEGORIES: {
@@ -195,6 +218,27 @@ export default function reducer(state = {}, action) {
             }
         }
         case ADD_COMMENT: {
+            return {
+                ...state,
+                categories: {
+                    ...state.categories,
+                    [`category_${action.categoryId}`]: {
+                        ...state.categories[`category_${action.categoryId}`],
+                        threads: {
+                            ...state.categories[`category_${action.categoryId}`].threads,
+                            [`thread_${action.threadId}`]: {
+                                ...state.categories[`category_${action.categoryId}`].threads[`thread_${action.threadId}`],
+                                comments: {
+                                    ...state.categories[`category_${action.categoryId}`].threads[`thread_${action.threadId}`].comments,
+                                    [`comment_${action.commentNum}`]: action.commentData,
+                                },
+                            }
+                        },
+                    }
+                },
+            }
+        }
+        case CHANGE_COMMENT: {
             return {
                 ...state,
                 categories: {
