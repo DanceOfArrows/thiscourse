@@ -5,6 +5,7 @@ import renderHTML from 'react-render-html';
 import './styles/Profile.css';
 import { getUser, submitProfileEdit } from '../redux/user';
 import RichTextEditor from './RichTextEditor';
+import UserThreads from './UserThreads';
 
 const Profile = (props) => {
     const path = props.location.pathname;
@@ -190,6 +191,9 @@ const Profile = (props) => {
                         }
 
                     </form>
+                    <div className='profile-user-threads'>
+
+                    </div>
                 </>
             ) : <h1>Loading</h1>}
 

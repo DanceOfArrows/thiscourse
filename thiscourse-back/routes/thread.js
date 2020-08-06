@@ -58,6 +58,52 @@ router.get('/threads/:category_id', asyncHandler(async (req, res, next) => {
     res.json(threadReturnObj);
 }));
 
+// Get threads by user id
+router.get('/threads/user/:user_id', asyncHandler(async (req, res, next) => {
+    const threads = await Thread.findAll({
+        where: {
+            user_id: req.params.user_id,
+        }
+    });
+
+    const threadReturnObj = {};
+    await Promise.all(threads.map(async thread => {
+        const threadData = thread.dataValues;
+        const {
+            id,
+            category_id,
+            user_id,
+            title,
+            content,
+            is_locked,
+            is_stickied,
+            bump_time,
+            tags,
+            createdAt,
+        } = threadData;
+
+        const user = await User.findByPk(user_id);
+        const { display_name, profile_img } = user;
+        const createdAtEpoch = createdAt.getTime();
+
+
+        return threadReturnObj[`thread_${threadData.id}`] = {
+            thread_id: id,
+            category_id,
+            title,
+            content,
+            is_locked,
+            is_stickied,
+            bump_time,
+            tags,
+            createdAt: createdAtEpoch,
+            threadOwner: { user_id, display_name, profile_img }
+        }
+    }));
+
+    res.json(threadReturnObj);
+}));
+
 // Post a thread
 router.post('/:categoryId/new-thread', requireUserAuth, asyncHandler(async (req, res, next) => {
     const { user_id, title, content, tags } = req.body;
