@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import renderHTML from 'react-render-html';
 
 import './styles/Profile.css';
-import { getUser, submitProfileEdit } from '../redux/user';
+import { getUser, getUserThreads, submitProfileEdit } from '../redux/user';
 import RichTextEditor from './RichTextEditor';
 import UserThreads from './UserThreads';
 
@@ -12,9 +12,10 @@ const Profile = (props) => {
     const pathSplit = path.split('/');
     const display_name = pathSplit[2];
 
-    const { getUser } = props;
+    const { getUser, getUserThreads, account } = props;
     useEffect(() => {
         getUser(display_name);
+        getUserThreads(account.userId)
     }, [display_name, getUser])
 
     let currentProfile;
@@ -192,7 +193,7 @@ const Profile = (props) => {
 
                     </form>
                     <div className='profile-user-threads'>
-
+                        <UserThreads />
                     </div>
                 </>
             ) : <h1>Loading</h1>}
@@ -221,6 +222,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         getUser: (...args) => dispatch(getUser(...args)),
+        getUserThreads: (...args) => dispatch(getUser(...args)),
         submitProfileEdit: (...args) => dispatch(submitProfileEdit(...args))
     };
 };

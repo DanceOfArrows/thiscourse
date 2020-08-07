@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import { epochToDate } from './Threads';
@@ -38,18 +37,4 @@ const UserThreads = (props) => {
     )
 }
 
-const mapStateToProps = state => {
-    return {
-    };
-};
-
-const mapDispatchToProps = dispatch => {
-    return {}
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(
-    UserThreads
-);
+export default UserThreads;

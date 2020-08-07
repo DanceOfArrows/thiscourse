@@ -5,6 +5,7 @@ const LOGOUT_USER = 'thiscourse/Login/LOGOUT_USER';
 const LOAD_USER = 'thiscourse/Profile/LOAD_USER';
 const UPDATE_PFP = 'thiscourse/Profile/UPDATE_PFP';
 const UPDATE_BIO = 'thiscourse/Profile/Update_BIO';
+const LOAD_THREADS = 'thiscourse/Profile/LOAD_THREADS'
 
 export const loginUser = (userId, email, display_name, bio, profile_img, token) => ({
     type: LOGIN_USER,
@@ -24,6 +25,12 @@ export const loadUser = (display_name, bio, profile_img, user_id) => ({
     bio,
     profile_img,
     user_id
+})
+
+export const loadThreads = (user_threads, user_id) => ({
+    type: LOAD_THREADS,
+    user_threads,
+    user_id,
 })
 
 export const updatePFP = (profile_img, user_id) => ({
@@ -84,6 +91,15 @@ export const getUser = (display_name) => async dispatch => {
     if (getUserRes.ok) {
         const { display_name, bio, profile_img, user_id } = await getUserRes.json();
         dispatch(loadUser(display_name, bio, profile_img, user_id))
+    }
+}
+
+export const getUserThreads = (user_id) => async dispatch => {
+    const getUserRes = await fetch(`${apiBaseUrl}/users/threads/${user_id}`);
+
+    if (getUserRes.ok) {
+        const { } = await getUserRes.json();
+        dispatch(loadThreads(user_id))
     }
 }
 
@@ -150,6 +166,18 @@ export default function reducer(state = {}, action) {
                         display_name: action.display_name,
                         bio: action.bio,
                         profile_img: action.profile_img,
+                    }
+                }
+            }
+        }
+        case LOAD_THREADS: {
+            return {
+                ...state,
+                public_profiles: {
+                    ...state.public_profiles,
+                    [`user_${action.user_id}`]: {
+                        ...state.public_profiles[`user_${action.user_id}`],
+                        threads: action.user_threads,
                     }
                 }
             }
