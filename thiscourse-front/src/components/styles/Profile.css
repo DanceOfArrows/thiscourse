@@ -164,3 +164,37 @@
     flex-direction: column;
     padding: 1%;
 }
+
+.profile-user-threads {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.profile-user-threads-title {
+    color: white;
+    font-size: 4vmin;
+    margin-bottom: 2.5%;
+}
+
+.user-threads-threadContainer {
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 12px;
+    color: white;
+    padding: 2% 5% 2% 5%;
+}
+
+.user-threads-title a {
+    background: linear-gradient(to right, white 50%, rgba(0, 0, 0, 0) 50%);
+    background-size: 201% 100%;
+    background-position: right bottom;
+    color: white;
+    font-size: 2rem;
+    text-decoration: none;
+    transition: all 0.15s ease;
+}
+
+.user-threads-title a:hover {
+    background-position: left bottom;
+    color: black;
+}

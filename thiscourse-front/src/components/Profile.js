@@ -16,7 +16,7 @@ const Profile = (props) => {
     useEffect(() => {
         getUser(display_name);
         getUserThreads(account.userId)
-    }, [display_name, getUser])
+    }, [account.userId, display_name, getUser, getUserThreads])
 
     let currentProfile;
 
@@ -193,6 +193,7 @@ const Profile = (props) => {
 
                     </form>
                     <div className='profile-user-threads'>
+                        <div className='profile-user-threads-title'>User Threads</div>
                         <UserThreads />
                     </div>
                 </>
@@ -222,7 +223,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         getUser: (...args) => dispatch(getUser(...args)),
-        getUserThreads: (...args) => dispatch(getUser(...args)),
+        getUserThreads: (...args) => dispatch(getUserThreads(...args)),
         submitProfileEdit: (...args) => dispatch(submitProfileEdit(...args))
     };
 };

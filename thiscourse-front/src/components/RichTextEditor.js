@@ -154,15 +154,13 @@ class RichTextEditor extends React.Component {
                     </div>
                     <div className="RichEditor-characterCount">Characters remaining: {this._getLength()}</div>
                 </div>
-                <form className='thread-content-form'>
-                    {this.props.account ? (
-                        <div className='thread-reply'>
-                            <button className='thread-reply-btn' type='submit' onClick={this.submitContent}>
-                                Reply
+                {this.props.account ? (
+                    <div className='thread-reply'>
+                        <button className='thread-reply-btn' onClick={this.submitContent}>
+                            Reply
                             </button>
-                        </div>
-                    ) : <></>}
-                </form>
+                    </div>
+                ) : <></>}
             </>
 
         );

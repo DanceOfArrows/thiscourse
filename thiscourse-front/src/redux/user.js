@@ -95,11 +95,11 @@ export const getUser = (display_name) => async dispatch => {
 }
 
 export const getUserThreads = (user_id) => async dispatch => {
-    const getUserRes = await fetch(`${apiBaseUrl}/users/threads/${user_id}`);
+    const getUserRes = await fetch(`${apiBaseUrl}/threads/user/${user_id}`);
 
     if (getUserRes.ok) {
-        const { } = await getUserRes.json();
-        dispatch(loadThreads(user_id))
+        const user_threads = await getUserRes.json();
+        dispatch(loadThreads(user_threads, user_id))
     }
 }
 
@@ -173,12 +173,9 @@ export default function reducer(state = {}, action) {
         case LOAD_THREADS: {
             return {
                 ...state,
-                public_profiles: {
-                    ...state.public_profiles,
-                    [`user_${action.user_id}`]: {
-                        ...state.public_profiles[`user_${action.user_id}`],
-                        threads: action.user_threads,
-                    }
+                account: {
+                    ...state.account,
+                    threads: action.user_threads,
                 }
             }
         }
