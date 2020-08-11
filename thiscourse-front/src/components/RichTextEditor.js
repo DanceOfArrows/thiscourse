@@ -22,12 +22,8 @@ class RichTextEditor extends React.Component {
         this.editor = null;
         this.onChange = (editorState) => {
             this.setState({ editorState })
-        };
-        this.onBlur = (editorState) => {
             const threadContent = stateToHTML(this.state.editorState.getCurrentContent());
             props.getContent(threadContent);
-
-
         };
         this.handleKeyCommand = this._handleKeyCommand.bind(this);
         this.mapKeyToEditorCommand = this._mapKeyToEditorCommand.bind(this);

@@ -27,7 +27,7 @@ html, body {
 }
 
 .page-body, .page-container {
-    background-color: #222222;
+    background-color: #292929;
     flex-grow: 1;
     height: 100%;
     margin: 0;

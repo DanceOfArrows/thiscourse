@@ -4,6 +4,7 @@ import renderHTML from 'react-render-html';
 
 import './styles/Profile.css';
 import { getUser, getUserThreads, submitProfileEdit } from '../redux/user';
+import { getCurrentContent } from '../redux/createThread';
 import RichTextEditor from './RichTextEditor';
 import UserThreads from './UserThreads';
 
@@ -146,7 +147,7 @@ const Profile = (props) => {
                                         </>
                                     ) : <></>}
                                     <div className='profile-text-editor' style={{ display: 'none' }}>
-                                        <RichTextEditor content={currentProfile.bio} />
+                                        <RichTextEditor content={currentProfile.bio} getContent={props.getCurrentContent} />
                                         <button className='profile-cancel-edit' onClick={toggleEdit}>
                                             Exit
                                         </button>
@@ -222,6 +223,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        getCurrentContent: (...args) => dispatch(getCurrentContent(...args)),
         getUser: (...args) => dispatch(getUser(...args)),
         getUserThreads: (...args) => dispatch(getUserThreads(...args)),
         submitProfileEdit: (...args) => dispatch(submitProfileEdit(...args))
