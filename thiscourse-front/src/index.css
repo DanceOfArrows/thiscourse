@@ -17,22 +17,27 @@ a:active, a:focus {
 #root {
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction:column;
 }
 
 html, body {
-    height: 100%;
-    margin: 0;
-}
-
-.page-body, .page-container {
     background-color: #292929;
-    flex-grow: 1;
     height: 100%;
     margin: 0;
     overflow: auto;
-    
+}
+
+.page-content {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    width: 100%;
+}
+
+.page-container {
+    height: 92.5%;
+    position: absolute;
+    margin-top: 7.5vh;
+    width: 100%;
 }
 
 ul {
@@ -59,12 +64,43 @@ ul {
 }
 
 .page-body {
-    height: auto;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     width: 100%;
-    position: absolute;
+    position: relative;
     transition: all 100ms;
 }
 
 .fa, .fas, .far {
     font-family: "Font Awesome 5 Free" !important; 
+}
+
+.footer-container {
+    margin-top: auto;
+    background-color: black;
+    flex-shrink: 0;
+    height: 7.5vh;
+    width: 100%;
+}
+
+.footer-links {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: space-around;
+}
+
+.footer-links a {
+    background: linear-gradient(to right, white 50%, rgba(0, 0, 0, 0) 50%);
+    background-size: 201% 100%;
+    background-position: right bottom;
+    color: white;
+    text-decoration: none;
+    transition: all .15s ease-out;
+}
+
+.footer-links a:hover {
+    background-position: left bottom;
+    color: black;
 }

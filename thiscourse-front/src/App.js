@@ -5,6 +5,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 import Category from './components/Category';
 import CreateThread from './components/CreateThread';
+import Footer from './components/Footer';
 import Home from './components/Home';
 import Login from './components/Login';
 import NavBar from './components/NavBar';
@@ -17,37 +18,42 @@ import { AuthRoute, ProtectedRoute } from './authRoutes'; // Add ProtectedRoute 
 function App(props) {
   return (
     <>
-      <div className='navbar-wrapper'>
-        <NavBar currentUserId={props.account ? props.account.userId : null} />
-      </div>
+      <NavBar currentUserId={props.account ? props.account.userId : null} />
       <Route render={({ location }) => (
-        <TransitionGroup className='page-container'>
-          <CSSTransition
-            key={location.key}
-            timeout={100}
-            classNames='fade'
-          >
-            <div className='page-body'>
-              <Login />
-              <Switch location={location}>
-                <AuthRoute
-                  exact path='/register'
-                  component={Register}
-                  currentUserId={props.account ? props.account.userId : null}
-                />
-                <ProtectedRoute exact path='/logout' currentUserId={props.account ? props.account.userId : null} />
-                <ProtectedRoute path='/c/*/new-thread' currentUserId={props.account ? props.account.userId : null} component={CreateThread} />
-                <Route path='/u/*' component={Profile} />
-                <Route path='/t' component={Thread} />
-                <Route path='/c' component={Category} />
-                <Route exact path='/' component={Home} />
-                <Route path='*' component={Page404} />
-              </Switch>
-            </div>
-          </CSSTransition>
-        </TransitionGroup>
-      )} />
+        <>
+          <TransitionGroup className='page-container'>
+            <CSSTransition
+              key={location.key}
+              timeout={100}
+              classNames='fade'
+            >
+              <>
+                <div className='page-body'>
+                  <div className='page-content'>
+                    <Login />
+                    <Switch location={location}>
+                      <AuthRoute
+                        exact path='/register'
+                        component={Register}
+                        currentUserId={props.account ? props.account.userId : null}
+                      />
+                      <ProtectedRoute exact path='/logout' currentUserId={props.account ? props.account.userId : null} />
+                      <ProtectedRoute path='/c/*/new-thread' currentUserId={props.account ? props.account.userId : null} component={CreateThread} />
+                      <Route path='/u/*' component={Profile} />
+                      <Route path='/t' component={Thread} />
+                      <Route path='/c' component={Category} />
+                      <Route exact path='/' component={Home} />
+                      <Route path='*' component={Page404} />
+                    </Switch>
+                    <Footer />
+                  </div>
+                </div>
+              </>
+            </CSSTransition>
+          </TransitionGroup>
 
+        </>
+      )} />
     </>
   );
 }
