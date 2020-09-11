@@ -14,10 +14,6 @@ const Profile = (props) => {
     const display_name = pathSplit[2];
 
     const { getUser, getUserThreads, account } = props;
-    let userId;
-    if (account) {
-        userId = account.userId;
-    }
 
     useEffect(() => {
         getUser(display_name);
