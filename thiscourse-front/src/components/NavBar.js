@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { logout } from '../redux/user';
@@ -24,6 +24,9 @@ export const handeLoginDisplay = () => {
 const NavBar = (props) => {
     const handleLogout = () => {
         props.logout();
+        return (
+            <Redirect to="/" />
+        )
     };
 
     return (

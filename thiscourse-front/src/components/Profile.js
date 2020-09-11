@@ -14,13 +14,17 @@ const Profile = (props) => {
     const display_name = pathSplit[2];
 
     const { getUser, getUserThreads, account } = props;
+    let userId;
+    if (account) {
+        userId = account.userId;
+    }
+
     useEffect(() => {
         getUser(display_name);
-        getUserThreads(account.userId)
-    }, [account.userId, display_name, getUser, getUserThreads])
+    }, [display_name, getUser])
 
     let currentProfile;
-
+    
     const [imagePreview, setImagePreview] = useState({ file: '', imagePreviewUrl: '', edited: false })
     const [textEdited, setTextEdited] = useState({ active: false })
 
@@ -33,6 +37,14 @@ const Profile = (props) => {
             }
         })
     }
+    
+   let user_id;
+   if (currentProfile) {
+       user_id = currentProfile.user_id;
+   }
+    useEffect(() => {
+        getUserThreads(user_id);
+    }, [getUserThreads, user_id])
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -195,7 +207,7 @@ const Profile = (props) => {
                     </form>
                     <div className='profile-user-threads'>
                         <div className='profile-user-threads-title'>User Threads</div>
-                        <UserThreads />
+                        <UserThreads user_id={user_id} />
                     </div>
                 </>
             ) : <h1>Loading</h1>}

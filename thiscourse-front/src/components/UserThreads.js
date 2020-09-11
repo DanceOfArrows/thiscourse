@@ -5,12 +5,16 @@ import { NavLink } from 'react-router-dom';
 import { epochToDate } from './Threads';
 
 const UserThreads = (props) => {
+    let threads;
+    if (props.profiles[`user_${props.user_id}`].threads) {
+        threads = props.profiles[`user_${props.user_id}`].threads;
+    }
     return (
         <>
             {
-                props.userThreads ? (
-                    Object.keys(props.userThreads).map(thread => {
-                        const threadObj = props.userThreads[thread];
+                threads ? (
+                    Object.keys(threads).map(thread => {
+                        const threadObj = threads[thread];
                         const threadTitleUri = encodeURI(threadObj.title);
                         const createdDate = epochToDate(threadObj.createdAt);
 
@@ -39,9 +43,11 @@ const UserThreads = (props) => {
 }
 
 const mapStateToProps = state => {
-    return {
-        userThreads: state.user.account.threads,
-    };
+    if (state.user.public_profiles) {
+        return {
+            profiles: state.user.public_profiles,
+        };
+    }
 };
 
 const mapDispatchToProps = dispatch => {

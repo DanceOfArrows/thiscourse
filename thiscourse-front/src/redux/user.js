@@ -166,6 +166,7 @@ export default function reducer(state = {}, action) {
                         display_name: action.display_name,
                         bio: action.bio,
                         profile_img: action.profile_img,
+                        user_id: action.user_id,
                     }
                 }
             }
@@ -173,9 +174,13 @@ export default function reducer(state = {}, action) {
         case LOAD_THREADS: {
             return {
                 ...state,
-                account: {
-                    ...state.account,
-                    threads: action.user_threads,
+                public_profiles: {
+                    ...state.public_profiles,
+                    [`user_${action.user_id}`]: {
+                        ...state.public_profiles[`user_${action.user_id}`],
+                        threads: action.user_threads,
+                    }
+                    
                 }
             }
         }
