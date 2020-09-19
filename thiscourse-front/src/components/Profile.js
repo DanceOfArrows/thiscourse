@@ -13,14 +13,14 @@ const Profile = (props) => {
     const pathSplit = path.split('/');
     const display_name = pathSplit[2];
 
-    const { getUser, getUserThreads, account } = props;
+    const { getUser, getUserThreads } = props;
 
     useEffect(() => {
         getUser(display_name);
     }, [display_name, getUser])
 
     let currentProfile;
-    
+
     const [imagePreview, setImagePreview] = useState({ file: '', imagePreviewUrl: '', edited: false })
     const [textEdited, setTextEdited] = useState({ active: false })
 
@@ -33,11 +33,11 @@ const Profile = (props) => {
             }
         })
     }
-    
-   let user_id;
-   if (currentProfile) {
-       user_id = currentProfile.user_id;
-   }
+
+    let user_id;
+    if (currentProfile) {
+        user_id = currentProfile.user_id;
+    }
     useEffect(() => {
         getUserThreads(user_id);
     }, [getUserThreads, user_id])
