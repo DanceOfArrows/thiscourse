@@ -15,25 +15,9 @@
     color: white;
 
     /* Layout */
-    display: grid;
-    grid-template: 1fr / 10% 1fr auto;
+    display: flex;
+    justify-content: space-between;
     height: 10vh;
-    padding-right: 24px;
-}
-
-.categoryCard-icon {
-
-    /* Layout */
-    align-self: center;
-    grid-column: 1 / 2;
-    justify-self: center;
-    width: max-content;
-}
-
-.categoryCard-icon > img {
-    /* Layout */
-    max-height: 64px;
-    max-width: 64px;
 }
 
 .categoryCard-info {
@@ -41,7 +25,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    grid-column: 2 / 3;
+    margin-left: 3%;
 }
 
 .categoryCard-info-title {
@@ -56,7 +40,6 @@
     transition: all .15s ease-out;
 
     /* Layout */
-
     width: max-content;
 }
 
@@ -74,7 +57,7 @@
 .categoryCard-threadCount {
     /* Layout */
     align-self: center;
-    
+    margin-right: 3%;
 }
 
 .categoryCard-subCategory-container {

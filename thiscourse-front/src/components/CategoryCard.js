@@ -13,9 +13,6 @@ const CategoryCard = (props) => {
             <>
                 <div className='categoryCard-container'>
                     <div className='categoryCard-category-container'>
-                        <div className='categoryCard-icon'>
-                            <img src={categoryInfo.category_img} alt='No Icon!' />
-                        </div>
                         <div className='categoryCard-info'>
                             <NavLink to={`/c/${categoryInfo.name}`} className='categoryCard-info-title'>
                                 {categoryInfo.name}
