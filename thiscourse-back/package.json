@@ -15,7 +15,7 @@
     "cors": "^2.8.5",
     "datauri": "^3.0.0",
     "debug": "~2.6.9",
-    "express": "~4.16.1",
+    "express": "~4.17.3",
     "express-bearer-token": "^2.4.0",
     "express-graphql": "^0.9.0",
     "express-validator": "^6.5.0",
